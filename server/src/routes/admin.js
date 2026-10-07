@@ -746,6 +746,16 @@ router.get('/audit', (req, res) => {
   });
 });
 
+router.get('/audit/verify', (req, res) => {
+  const result = dbRepository.verifyAuditLogChain();
+  res.json({
+    timestamp: new Date().toISOString(),
+    tamperProof: result.valid,
+    chainIntegrity: result.valid ? 'VALID_HMAC_SHA256_CHAIN' : 'COMPROMISED',
+    details: result
+  });
+});
+
 // --- ACCESS REQUESTS ENDPOINTS ---
 router.get('/access-requests', (req, res) => {
   res.json(dbRepository.getAccessRequests());

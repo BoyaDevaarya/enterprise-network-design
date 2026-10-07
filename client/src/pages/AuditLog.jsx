@@ -59,6 +59,25 @@ export default function AuditLog() {
             />
           </div>
 
+          <button
+            onClick={async () => {
+              try {
+                const res = await apiRequest('/api/admin/audit/verify');
+                if (res.tamperProof) {
+                  toast.success('SHA-256 Chain Verified', { description: `Validated ${res.details?.count || 0} audit logs. Zero tamper events.` });
+                } else {
+                  toast.error('Cryptographic Chain Compromised!', { description: res.details?.reason });
+                }
+              } catch (err) {
+                toast.error('Verification failed', { description: err.message });
+              }
+            }}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 hover:text-white hover:bg-cyan-900/80 text-xs font-mono font-bold transition-all shadow-[0_0_10px_rgba(6,182,212,0.2)] cursor-pointer"
+          >
+            <Shield className="w-3.5 h-3.5 text-cyan-400" />
+            Verify SHA-256 Chain
+          </button>
+
           <select
             value={riskFilter}
             onChange={(e) => setRiskFilter(e.target.value)}
@@ -132,12 +151,22 @@ export default function AuditLog() {
 
                     {isExpanded && (
                       <div className="mt-3 p-3.5 bg-slate-950 rounded-lg border border-slate-800 text-[11px] space-y-2 animate-in fade-in">
-                        <div className="flex items-center justify-between">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[10px] font-mono bg-slate-900/90 p-2.5 rounded border border-slate-800">
+                          <div>
+                            <span className="text-slate-500 block">SHA-256 BLOCK HASH:</span>
+                            <span className="text-emerald-400 font-bold break-all">{log.hash || 'GENESIS_HASH'}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500 block">PREVIOUS BLOCK HASH:</span>
+                            <span className="text-cyan-400 font-bold break-all">{log.previousHash || 'GENESIS_BLOCK_000000000000'}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between pt-1">
                           <span className="text-slate-400 font-bold uppercase text-[10px]">Change Diff & Event Payload:</span>
                           <span className="text-[10px] text-cyan-400">ID: {log.id}</span>
                         </div>
                         <pre className="text-cyan-300 overflow-x-auto p-3 bg-slate-900 rounded-lg border border-slate-800/80 leading-relaxed font-mono">
-                          {JSON.stringify({ before: log.before, after: log.after }, null, 2)}
+                          {JSON.stringify({ before: log.before, after: log.after, details: log.details || log.metadata }, null, 2)}
                         </pre>
                       </div>
                     )}

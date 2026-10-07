@@ -1,6 +1,7 @@
 import app from './app.js';
 import { getJwtSecret } from './middleware/auth.js';
 import { closeAllSSEConnections } from './services/sse.js';
+import { initWebSocketServer, closeWebSocketServer } from './services/websocket.js';
 import { stopExpiryTimer } from './services/timer.js';
 import { saveDb } from './repo/db.js';
 
@@ -14,12 +15,16 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(` EnterpriseNet Access Portal Server Running`);
   console.log(` Listening on: 0.0.0.0:${PORT}`);
   console.log(` Health Check: http://localhost:${PORT}/api/health`);
+  console.log(` WebSocket:    ws://localhost:${PORT}/ws`);
   console.log(`====================================================`);
 });
+
+initWebSocketServer(server);
 
 const handleShutdown = (signal) => {
   console.log(`\n[SERVER] ${signal} received: initiating graceful shutdown...`);
   closeAllSSEConnections();
+  closeWebSocketServer();
   stopExpiryTimer();
   saveDb();
   server.close(() => {

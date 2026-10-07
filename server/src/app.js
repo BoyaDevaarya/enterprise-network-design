@@ -100,7 +100,7 @@ app.use('/api/*', (req, res) => {
 
 // Single Origin Static Client & SPA Fallback
 const clientDistPath = path.resolve(__dirname, '../../client/dist');
-if (fs.existsSync(clientDistPath)) {
+if (process.env.NODE_ENV !== 'test' && fs.existsSync(clientDistPath)) {
   app.use(express.static(clientDistPath));
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api')) {

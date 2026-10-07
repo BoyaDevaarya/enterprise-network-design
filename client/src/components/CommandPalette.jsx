@@ -108,7 +108,35 @@ export default function CommandPalette({ isOpen, onClose }) {
               </Command.Item>
             </Command.Group>
 
-            <Command.Group heading="Quick Diagnostics & Packet Injection" className="text-[10px] font-mono text-purple-400 px-3 py-1.5 uppercase font-bold tracking-wider mt-2 border-t border-slate-800/80 pt-2">
+            <Command.Group heading="RBAC Simulation Switcher" className="text-[10px] font-mono text-amber-400 px-3 py-1.5 uppercase font-bold tracking-wider mt-2 border-t border-slate-800/80 pt-2">
+              {['HR', 'Finance', 'IT', 'Sales', 'Management', 'Servers'].map((dept) => (
+                <Command.Item
+                  key={dept}
+                  onSelect={() => {
+                    useAuthStore.getState().setPreviewDept(dept);
+                    toast.success(`RBAC Simulation active: ${dept} Department`);
+                    onClose();
+                  }}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:bg-amber-500/15 hover:text-amber-300 cursor-pointer transition-colors"
+                >
+                  <Building className="w-4 h-4 text-amber-400" />
+                  <span>Simulate {dept} Department View & ACL Permissions</span>
+                </Command.Item>
+              ))}
+              <Command.Item
+                onSelect={() => {
+                  useAuthStore.getState().setPreviewDept(null);
+                  toast.info('Exited Preview Mode');
+                  onClose();
+                }}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white cursor-pointer transition-colors"
+              >
+                <Users className="w-4 h-4 text-slate-400" />
+                <span>Exit Simulation (Return to Default Role)</span>
+              </Command.Item>
+            </Command.Group>
+
+            <Command.Group heading="Quick Diagnostics & Threat Injection" className="text-[10px] font-mono text-purple-400 px-3 py-1.5 uppercase font-bold tracking-wider mt-2 border-t border-slate-800/80 pt-2">
               <Command.Item
                 onSelect={() => handleSimulate('Sales', 'Servers', 'http')}
                 className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:bg-purple-500/15 hover:text-purple-300 cursor-pointer transition-colors"
@@ -129,6 +157,25 @@ export default function CommandPalette({ isOpen, onClose }) {
               >
                 <ShieldAlert className="w-4 h-4 text-rose-400" />
                 <span>Simulate HR Ping → Finance (VLAN Isolated)</span>
+              </Command.Item>
+              <Command.Item
+                onSelect={async () => {
+                  onClose();
+                  try {
+                    const res = await apiRequest('/api/admin/audit/verify');
+                    if (res.tamperProof) {
+                      toast.success('SHA-256 Audit Log Chain Validated', { description: 'All log blocks are cryptographic tamper-proof.' });
+                    } else {
+                      toast.error('Audit Chain Integrity Violation!', { description: res.details?.reason || 'Hash mismatch detected.' });
+                    }
+                  } catch (err) {
+                    toast.error('Verification check failed', { description: err.message });
+                  }
+                }}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-300 hover:bg-cyan-500/15 hover:text-cyan-300 cursor-pointer transition-colors"
+              >
+                <ShieldCheck className="w-4 h-4 text-cyan-400" />
+                <span>Verify SHA-256 Cryptographic Audit Chain Integrity</span>
               </Command.Item>
             </Command.Group>
           </Command.List>

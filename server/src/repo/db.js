@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import { getSeedData } from '../seed/seedData.js';
 
@@ -148,14 +149,45 @@ export const dbRepository = {
   addAuditLog(entry) {
     const db = getDb();
     if (!db.auditLogs) db.auditLogs = [];
+    
+    const previousLog = db.auditLogs.length > 0 ? db.auditLogs[db.auditLogs.length - 1] : null;
+    const previousHash = previousLog && previousLog.hash ? previousLog.hash : 'GENESIS_BLOCK_00000000000000000000000000000000';
+    const timestamp = entry.timestamp || new Date().toISOString();
+    const action = entry.action || 'UNKNOWN_ACTION';
+    const userId = entry.userId || entry.user || 'system';
+    const detailsStr = JSON.stringify(entry.details || entry.metadata || {});
+
+    const hashInput = `${previousHash}|${timestamp}|${action}|${userId}|${detailsStr}`;
+    const hash = crypto.createHash('sha256').update(hashInput).digest('hex');
+
     const fullEntry = {
       id: `audit-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
-      timestamp: new Date().toISOString(),
+      timestamp,
+      previousHash,
+      hash,
       ...entry
     };
     db.auditLogs.push(fullEntry);
     saveDb();
     return fullEntry;
+  },
+  verifyAuditLogChain() {
+    const logs = this.getAuditLogs();
+    if (!logs || logs.length === 0) return { valid: true, count: 0 };
+    
+    let previousHash = 'GENESIS_BLOCK_00000000000000000000000000000000';
+    for (let i = 0; i < logs.length; i++) {
+      const log = logs[i];
+      if (log.previousHash && log.previousHash !== previousHash) {
+        return { valid: false, brokenIndex: i, reason: `Previous hash mismatch at index ${i}` };
+      }
+      if (log.hash) {
+        previousHash = log.hash;
+      } else if (log.previousHash) {
+        previousHash = log.previousHash;
+      }
+    }
+    return { valid: true, count: logs.length };
   },
   getConfigHistory() {
     return getDb().configHistory || {};

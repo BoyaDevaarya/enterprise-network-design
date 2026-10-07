@@ -7,7 +7,11 @@ export const useAuthStore = create((set, get) => ({
   isLoading: true,
   previewDept: null,
 
-  setPreviewDept: (dept) => set({ previewDept: dept }),
+  setPreviewDept: (dept) => {
+    set({ previewDept: dept });
+    // Dispatch custom event for query cache invalidation across all components
+    window.dispatchEvent(new CustomEvent('rbac-simulation-changed', { detail: { department: dept } }));
+  },
 
   checkAuth: async () => {
     try {

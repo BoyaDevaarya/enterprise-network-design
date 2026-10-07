@@ -1,6 +1,13 @@
-/**
- * Cisco IOS Configuration Generator for EnterpriseNet Access Portal.
- */
+function sanitizeString(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[^\w\-\.\/ ]/gi, '').trim();
+}
+
+function sanitizeVlan(vlan) {
+  const v = parseInt(vlan, 10);
+  if (isNaN(v) || v < 1 || v > 4094) return 10;
+  return v;
+}
 
 export function generateRouterConfig(departments, rules) {
   const lines = [];
