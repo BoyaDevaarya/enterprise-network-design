@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { AlertTriangle, RefreshCw, ShieldAlert } from 'lucide-react';
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -27,21 +27,24 @@ export class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-[300px] flex items-center justify-center p-6">
-          <div className="surface-panel p-8 max-w-md w-full text-center border-rose-500/40 shadow-sm border-red-500/50">
-            <div className="w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-4">
-              <AlertTriangle className="w-6 h-6" />
+        <div className="min-h-[360px] flex items-center justify-center p-6">
+          <div className="surface-panel p-8 max-w-md w-full text-center border-rose-500/50 shadow-2xl bg-slate-900/95 space-y-4">
+            <div className="w-14 h-14 rounded-2xl bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(244,63,94,0.3)]">
+              <ShieldAlert className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-bold text-zinc-100 mb-2">Component Execution Error</h3>
-            <p className="text-sm text-zinc-400 mb-6 font-mono bg-zinc-900/60 p-3 rounded border border-zinc-800 text-left overflow-auto max-h-32">
+            <div>
+              <h3 className="text-lg font-bold text-white font-mono tracking-tight">Console Execution Exception</h3>
+              <p className="text-xs text-slate-400 font-mono mt-1">An isolated rendering error occurred</p>
+            </div>
+            <p className="text-xs text-rose-300 font-mono bg-slate-950 p-3.5 rounded-lg border border-slate-800 text-left overflow-auto max-h-32 leading-relaxed">
               {this.state.error?.message || 'An unexpected rendering error occurred.'}
             </p>
             <button
               onClick={this.handleRetry}
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-semibold transition-colors shadow-sm border-blue-500/50"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs transition-all shadow-md cursor-pointer"
             >
               <RefreshCw className="w-4 h-4" />
-              Retry Component
+              <span>Retry Module</span>
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuthStore } from '../store/authStore';
 import { useDemoStore } from '../store/demoStore';
-import { Shield, Eye, LogOut, Terminal, Activity, X } from 'lucide-react';
+import { Shield, Eye, LogOut, Terminal, Activity, X, Radio, Cpu, Sparkles } from 'lucide-react';
 
 const DEPARTMENTS = ['HR', 'Finance', 'IT', 'Sales', 'Management', 'Servers'];
 
@@ -12,47 +12,66 @@ export default function TopBar({ onOpenCommandPalette }) {
   const isAdmin = user?.role === 'ADMIN';
 
   return (
-    <header className="sticky top-0 z-30 w-full surface-panel !rounded-none !border-x-0 !border-t-0 px-4 lg:px-6 py-3 flex items-center justify-between">
-      {/* Brand & Connection Status */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-sm bg-blue-600/10 border border-blue-600/30 flex items-center justify-center text-blue-500">
-            <Shield className="w-5 h-5" />
+    <header className="sticky top-0 z-30 w-full surface-panel !rounded-none !border-x-0 !border-t-0 border-b border-cyan-500/20 px-4 lg:px-6 py-2.5 flex items-center justify-between shadow-glass backdrop-blur-2xl">
+      {/* Brand & Live Connection Indicator */}
+      <div className="flex items-center gap-4 lg:gap-6">
+        <div className="flex items-center gap-3 group cursor-pointer">
+          <div className="relative flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500/20 via-blue-600/20 to-violet-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all group-hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] group-hover:scale-105">
+              <Shield className="w-5 h-5 text-cyan-300 transition-transform group-hover:rotate-6" />
+            </div>
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyan-400 rounded-full animate-ping opacity-75" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyan-400 rounded-full" />
           </div>
+
           <div>
-            <h1 className="text-base font-bold tracking-wide text-zinc-100 flex items-center gap-2">
-              EnterpriseNet <span className="text-xs font-mono px-2 py-0.5 rounded bg-cyan-950 text-blue-500 border border-cyan-800/50">ACCESS PORTAL</span>
-            </h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+                <span className="bg-gradient-to-r from-white via-slate-100 to-cyan-200 bg-clip-text text-transparent">EnterpriseNet</span>
+              </h1>
+              <span className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/30 shadow-[0_0_8px_rgba(6,182,212,0.2)]">
+                CONSOLE 2.0
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 font-mono tracking-wider flex items-center gap-1.5 mt-0.5">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>SOC ZERO-TRUST CLUSTER</span>
+            </p>
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/40 border border-emerald-800/50 text-xs text-emerald-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Live SSE Connection Active</span>
+        {/* Live SSE Pulse Pill */}
+        <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-[11px] font-mono text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.15)]">
+          <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+          <span className="font-semibold">SSE LIVE SYNC</span>
+          <span className="w-1 h-1 rounded-full bg-emerald-400" />
+          <span className="text-[10px] opacity-75">12ms</span>
         </div>
       </div>
 
       {/* Center/Right Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5 sm:gap-3">
         {/* Command Palette Trigger */}
         <button
           onClick={onOpenCommandPalette}
           aria-label="Open command palette (Command + K)"
-          title="Open Command Palette (⌘K)"
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-sm bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-400 hover:text-blue-500 hover:border-blue-600/40 hover:bg-zinc-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-600/50"
+          title="Open Command Palette (⌘K or Ctrl+K)"
+          className="hidden md:flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-slate-900/80 border border-slate-700/70 hover:border-cyan-500/50 hover:bg-slate-800 text-xs text-slate-300 hover:text-white transition-all shadow-inner group cursor-pointer focus:outline-none focus:ring-1 focus:ring-cyan-500"
         >
-          <Terminal className="w-3.5 h-3.5" />
-          <span>Command Palette</span>
-          <kbd className="px-1.5 py-0.5 text-[10px] bg-zinc-800 rounded text-zinc-300 font-mono border border-zinc-700 shadow-sm">⌘K</kbd>
+          <Terminal className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+          <span className="font-medium text-[11px]">Command Palette</span>
+          <kbd className="px-1.5 py-0.5 text-[10px] bg-slate-800 rounded text-slate-400 font-mono border border-slate-700 group-hover:border-cyan-500/30 group-hover:text-cyan-300">
+            ⌘K
+          </kbd>
         </button>
 
         {/* Guided Demo Tour */}
         <button
           onClick={startTour}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-blue-600/10 border border-blue-600/30 text-xs text-blue-500 hover:bg-blue-600/20 font-medium transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gradient-to-r from-cyan-500/15 to-blue-500/15 border border-cyan-500/40 text-xs text-cyan-300 hover:text-white hover:bg-cyan-500/25 font-semibold transition-all shadow-[0_0_10px_rgba(6,182,212,0.15)] hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] cursor-pointer"
         >
-          <Activity className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Guided Demo</span>
+          <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin" style={{ animationDuration: '8s' }} />
+          <span className="hidden sm:inline">Guided Tour</span>
         </button>
 
         {/* Admin Preview As Department Selector */}
@@ -61,36 +80,43 @@ export default function TopBar({ onOpenCommandPalette }) {
             <select
               value={previewDept || ''}
               onChange={(e) => setPreviewDept(e.target.value || null)}
-              className="bg-zinc-900 text-xs text-zinc-200 border border-zinc-700 rounded-sm px-2.5 py-1.5 focus:outline-none focus:border-blue-600 cursor-pointer"
+              className="bg-slate-900/90 text-xs font-mono text-cyan-300 border border-slate-700 hover:border-cyan-500/50 rounded-md px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-cyan-500 cursor-pointer transition-colors shadow-inner"
             >
-              <option value="">Preview Dept (Off)</option>
+              <option value="">Preview Mode (Off)</option>
               {DEPARTMENTS.map((dept) => (
                 <option key={dept} value={dept}>
-                  Preview as {dept}
+                  Simulate {dept} Dept
                 </option>
               ))}
             </select>
           </div>
         )}
 
-        {/* User Info & Role Pill */}
-        <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-zinc-800">
-          <div className="text-right">
-            <div className="text-xs font-semibold text-zinc-200">{user?.name || user?.email}</div>
-            <div className="text-[10px] text-zinc-400 flex items-center justify-end gap-1 font-mono">
-              <span>{user?.department}</span>
-              <span className={`px-1 rounded text-[9px] ${isAdmin ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-zinc-800 text-zinc-300'}`}>
+        {/* User Identity Profile Card */}
+        <div className="flex items-center gap-2.5 pl-2 border-l border-slate-800">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500/30 via-indigo-500/30 to-purple-500/30 border border-cyan-400/40 flex items-center justify-center text-xs font-bold font-mono text-cyan-200 shrink-0 shadow-sm">
+            {(user?.name || user?.email || 'U')[0].toUpperCase()}
+          </div>
+          <div className="hidden lg:block text-right">
+            <div className="text-xs font-semibold text-slate-100 line-clamp-1">{user?.name || user?.email}</div>
+            <div className="text-[10px] text-slate-400 flex items-center justify-end gap-1.5 font-mono">
+              <span className="text-cyan-400 font-semibold">{user?.department}</span>
+              <span className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
+                isAdmin 
+                  ? 'bg-purple-950/80 text-purple-300 border border-purple-600/50 shadow-[0_0_8px_rgba(168,85,247,0.2)]' 
+                  : 'bg-slate-800 text-slate-300 border border-slate-700'
+              }`}>
                 {user?.role}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Logout */}
+        {/* Logout Button */}
         <button
           onClick={logout}
-          title="Sign out"
-          className="p-1.5 rounded-sm text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+          title="Sign out of console"
+          className="p-1.5 rounded-md text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors border border-transparent hover:border-rose-500/20 cursor-pointer"
         >
           <LogOut className="w-4 h-4" />
         </button>
@@ -98,18 +124,18 @@ export default function TopBar({ onOpenCommandPalette }) {
 
       {/* Active Preview Dept Floating Banner */}
       {previewDept && (
-        <div className="absolute top-full left-0 right-0 bg-amber-500/20 border-b border-amber-500/40 text-amber-300 px-4 py-1.5 text-xs font-medium flex items-center justify-between z-40 backdrop-blur-md">
+        <div className="absolute top-full left-0 right-0 bg-gradient-to-r from-amber-500/20 via-amber-600/15 to-amber-500/20 border-b border-amber-500/40 text-amber-200 px-4 py-2 text-xs font-medium flex items-center justify-between z-40 backdrop-blur-xl shadow-lg">
           <div className="flex items-center gap-2">
-            <Eye className="w-4 h-4 animate-pulse" />
+            <Eye className="w-4 h-4 text-amber-400 animate-pulse shrink-0" />
             <span>
-              <strong>PREVIEW MODE ACTIVE:</strong> Viewing portal resources and restrictions as <strong>{previewDept}</strong> department. Real session is unchanged.
+              <strong>PREVIEW SIMULATION ACTIVE:</strong> Viewing portal resources and ACL restrictions as <span className="font-bold font-mono text-amber-300 underline underline-offset-2">{previewDept}</span> department.
             </span>
           </div>
           <button
             onClick={() => setPreviewDept(null)}
-            className="flex items-center gap-1 px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[11px]"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs font-bold transition-colors border border-amber-500/40 cursor-pointer"
           >
-            <X className="w-3 h-3" /> Exit Preview
+            <X className="w-3.5 h-3.5" /> Exit Simulation
           </button>
         </div>
       )}

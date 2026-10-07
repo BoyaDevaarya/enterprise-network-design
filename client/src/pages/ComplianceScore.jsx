@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '../services/api';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, AlertTriangle, ArrowRight, Activity, Zap } from 'lucide-react';
+import { ShieldCheck, AlertTriangle, ArrowRight, Activity, Zap, CheckCircle2, Shield, Lock, Radio } from 'lucide-react';
 
 export default function ComplianceScore() {
   const navigate = useNavigate();
@@ -13,8 +13,8 @@ export default function ComplianceScore() {
 
   if (isLoading) {
     return (
-      <div className="p-12 text-center text-zinc-400 font-mono text-xs">
-        Calculating security compliance grade...
+      <div className="p-16 text-center text-slate-400 font-mono text-xs surface-panel border-cyan-500/20">
+        Calculating security compliance grade & evaluating trust-gap vectors...
       </div>
     );
   }
@@ -28,23 +28,30 @@ export default function ComplianceScore() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      <div className="surface-panel p-5">
-        <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-blue-500" /> Security Posture & Compliance Gauge
+      {/* Header */}
+      <div className="surface-panel p-6 border-cyan-500/30 shadow-glass">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/40">
+            SECURITY AUDIT
+          </span>
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+        </div>
+        <h2 className="text-xl font-bold text-white flex items-center gap-2">
+          <ShieldCheck className="w-5 h-5 text-cyan-400" /> Security Posture & Compliance Gauge
         </h2>
-        <p className="text-xs text-zinc-400">Automated assessment of firewall permit exposure and trust gap vulnerabilities</p>
+        <p className="text-xs text-slate-400 font-mono">Automated real-time assessment of firewall permit exposure and trust-gap vulnerabilities</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Radial Gauge Card */}
-        <div className="surface-panel p-8 flex flex-col items-center justify-center text-center space-y-4 border-blue-600/30 shadow-sm border-blue-500/50">
-          <div className="relative w-44 h-44 flex items-center justify-center">
+        <div className="surface-panel p-8 flex flex-col items-center justify-center text-center space-y-5 border-cyan-500/30 shadow-glass relative overflow-hidden bg-slate-950">
+          <div className="relative w-48 h-48 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
               <circle
                 cx="50"
                 cy="50"
                 r="45"
-                className="text-zinc-900 stroke-current"
+                className="text-slate-900 stroke-current"
                 strokeWidth="8"
                 fill="transparent"
               />
@@ -53,7 +60,9 @@ export default function ComplianceScore() {
                 cy="50"
                 r="45"
                 className={`stroke-current transition-all duration-1000 ${
-                  score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-rose-400'
+                  score >= 80 ? 'text-emerald-400 drop-shadow-[0_0_8px_#34d399]' : 
+                  score >= 60 ? 'text-amber-400 drop-shadow-[0_0_8px_#fbbf24]' : 
+                  'text-rose-400 drop-shadow-[0_0_8px_#fb7185]'
                 }`}
                 strokeWidth="8"
                 strokeDasharray="283"
@@ -63,40 +72,51 @@ export default function ComplianceScore() {
               />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-4xl font-bold font-mono text-zinc-100">{score}</span>
-              <span className="text-xs font-mono text-zinc-400">OUT OF 100</span>
+              <span className="text-5xl font-black font-mono text-white tracking-tight">{score}</span>
+              <span className="text-[10px] font-mono text-slate-400 tracking-widest mt-0.5">COMPLIANCE INDEX</span>
             </div>
           </div>
 
           <div>
-            <div className="text-sm font-bold text-zinc-200">
-              Overall Security Grade: <span className="text-blue-500 font-mono text-xl">{grade}</span>
+            <div className="text-base font-bold text-slate-100 flex items-center justify-center gap-2">
+              <span>Overall Posture Grade:</span>
+              <span className={`font-mono text-2xl font-black px-2.5 py-0.5 rounded-md border ${
+                score >= 80 ? 'text-emerald-300 bg-emerald-950/80 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.3)]' :
+                score >= 60 ? 'text-amber-300 bg-amber-950/80 border-amber-500/40 shadow-[0_0_10px_rgba(245,158,11,0.3)]' :
+                'text-rose-300 bg-rose-950/80 border-rose-500/40 shadow-[0_0_10px_rgba(244,63,94,0.3)]'
+              }`}>
+                {grade}
+              </span>
             </div>
-            <p className="text-xs text-zinc-400 mt-1">
-              {score >= 80 ? 'Optimal firewall isolation state' : 'Requires policy tightening and risk mitigation'}
+            <p className="text-xs text-slate-400 mt-2 font-mono">
+              {score >= 80 ? 'Optimal firewall isolation and minimal risk exposure state.' : 'Requires policy tightening and risk mitigation across subnets.'}
             </p>
           </div>
         </div>
 
-        {/* Top 3 Risks Card */}
-        <div className="surface-panel p-6 space-y-4 flex flex-col justify-between">
+        {/* Top Identified Risks Card */}
+        <div className="surface-panel p-6 space-y-4 flex flex-col justify-between border-slate-800 shadow-xl">
           <div>
-            <h3 className="text-sm font-bold text-zinc-200 flex items-center gap-2 mb-3">
-              <AlertTriangle className="w-4 h-4 text-amber-400" /> Top Identified Exposure Risks
-            </h3>
+            <div className="flex items-center justify-between mb-3 border-b border-slate-800 pb-2.5">
+              <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2 font-mono uppercase tracking-wider">
+                <AlertTriangle className="w-4 h-4 text-amber-400" /> Top Identified Exposure Risks
+              </h3>
+              <span className="text-[10px] font-mono text-slate-500">{topRisks.length} Vectors</span>
+            </div>
 
             {topRisks.length === 0 ? (
-              <p className="text-xs text-emerald-400 bg-emerald-950/40 p-3 rounded-sm border border-emerald-800">
-                ✓ No high or critical exposure permit rules detected. Network posture is secure.
-              </p>
+              <div className="p-4 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                <span>No high or critical exposure permit rules detected. Network posture is secure.</span>
+              </div>
             ) : (
-              <div className="space-y-2 text-xs">
+              <div className="space-y-2.5 text-xs">
                 {topRisks.map((riskMsg, i) => (
-                  <div key={i} className="p-3 rounded-sm bg-zinc-900/80 border border-zinc-800 flex items-start gap-2.5">
-                    <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-bold text-[10px] shrink-0">
+                  <div key={i} className="p-3 rounded-lg bg-slate-950 border border-slate-800/90 flex items-start gap-3">
+                    <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-bold text-[10px] shrink-0 border border-amber-500/30">
                       {i + 1}
                     </span>
-                    <span className="text-zinc-300 font-mono leading-relaxed">{riskMsg}</span>
+                    <span className="text-slate-200 font-mono leading-relaxed">{riskMsg}</span>
                   </div>
                 ))}
               </div>
@@ -104,8 +124,9 @@ export default function ComplianceScore() {
           </div>
 
           <button
+            type="button"
             onClick={() => navigate('/matrix')}
-            className="w-full py-2.5 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-sm border-blue-500/50 cursor-pointer mt-4"
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] cursor-pointer mt-4"
           >
             <Zap className="w-4 h-4" />
             <span>Open Policy Matrix To Fix Risks</span>

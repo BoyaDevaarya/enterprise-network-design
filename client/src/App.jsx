@@ -11,7 +11,7 @@ import TopBar from './components/TopBar';
 import Sidebar from './components/Sidebar';
 import CommandPalette from './components/CommandPalette';
 import GuidedDemoTour from './components/GuidedDemoTour';
-import { Activity, RefreshCw } from 'lucide-react';
+import { Activity, RefreshCw, Shield, Sparkles } from 'lucide-react';
 
 // Lazy load pages for code splitting & fast initial load
 const Login = lazy(() => import('./pages/Login'));
@@ -39,8 +39,13 @@ const queryClient = new QueryClient({
 
 function LoadingFallback() {
   return (
-    <div className="p-12 text-center font-mono text-xs text-zinc-500 animate-pulse">
-      Loading console module...
+    <div className="min-h-[400px] flex flex-col items-center justify-center p-12 text-center space-y-3">
+      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 animate-pulse">
+        <Activity className="w-5 h-5 animate-spin" />
+      </div>
+      <div className="font-mono text-xs text-cyan-400 tracking-wider uppercase font-bold">
+        Loading Console Module...
+      </div>
     </div>
   );
 }
@@ -93,29 +98,36 @@ function AppContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#070b16] flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-[#030712] flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
         <BackgroundCanvas />
-        <div className="surface-panel p-8 max-w-md w-full relative z-10 border-blue-600/40 shadow-sm border-blue-500/50 space-y-4">
-          <div className="w-12 h-12 rounded-full bg-blue-600/20 text-blue-500 flex items-center justify-center mx-auto">
-            <Activity className="w-6 h-6 animate-spin" />
+        <div className="surface-panel p-8 max-w-md w-full relative z-10 border-cyan-500/40 shadow-2xl space-y-5 bg-slate-900/95 backdrop-blur-2xl">
+          <div className="relative mx-auto w-14 h-14 flex items-center justify-center">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-600/20 to-purple-600/20 border border-cyan-500/40 text-cyan-400 flex items-center justify-center shadow-[0_0_25px_rgba(6,182,212,0.35)]">
+              <Shield className="w-7 h-7 text-cyan-300 animate-pulse" />
+            </div>
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-400 rounded-full animate-ping" />
           </div>
-          <h2 className="text-lg font-bold text-zinc-100">
-            {isWakingUp ? 'Waking up the server...' : 'Booting Console Session'}
-          </h2>
-          <p className="text-xs text-zinc-400 leading-relaxed font-mono">
-            {isWakingUp
-              ? 'Free tier web services spin down after inactivity. Waking up instance, this can take up to 60 seconds.'
-              : 'Verifying session token and ACL credentials...'}
-          </p>
+
+          <div>
+            <h2 className="text-lg font-bold text-white tracking-tight font-mono">
+              {isWakingUp ? 'Waking Up Security Instance...' : 'Initializing SOC Console Session'}
+            </h2>
+            <p className="text-xs text-slate-400 leading-relaxed font-mono mt-2">
+              {isWakingUp
+                ? 'Server instance is spinning up. Verifying stateful firewall cluster readiness...'
+                : 'Verifying session token, ACL credentials, and RBAC matrix...'}
+            </p>
+          </div>
+
           {isWakingUp && (
             <button
               onClick={() => {
                 setIsWakingUp(false);
                 checkAuth();
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-blue-600 text-zinc-950 font-bold text-xs shadow-sm border-blue-500/50 hover:bg-blue-500 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer"
             >
-              <RefreshCw className="w-3.5 h-3.5" /> Retry Health Check
+              <RefreshCw className="w-4 h-4" /> Retry Health Check
             </button>
           )}
         </div>
@@ -132,7 +144,7 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070b16] text-zinc-100 flex flex-col relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col relative overflow-x-hidden selection:bg-cyan-500 selection:text-black font-sans">
       <BackgroundCanvas />
 
       <TopBar onOpenCommandPalette={() => setIsCmdOpen(true)} />
@@ -140,7 +152,7 @@ function AppContent() {
       <div className="flex-1 flex pb-16 md:pb-0 relative z-10">
         <Sidebar />
 
-        <main className="flex-1 p-4 lg:p-6 overflow-y-auto">
+        <main className="flex-1 p-4 lg:p-6 overflow-y-auto max-w-[1700px]">
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>

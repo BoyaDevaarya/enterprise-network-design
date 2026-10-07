@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '../services/api';
 import { useAuthStore } from '../store/authStore';
-import { FileCode, Copy, Download, GitCompare, Check } from 'lucide-react';
+import { FileCode, Copy, Download, GitCompare, Check, Terminal, Cpu } from 'lucide-react';
 import { toast } from 'sonner';
 
 const DEVICES = [
   { id: 'router', label: 'R1-EDGE Router' },
   { id: 'core', label: 'CORE-SW Switch' },
-  { id: 'sw-hr', label: 'SW-HR Access Switch' },
-  { id: 'sw-finance', label: 'SW-FINANCE Access Switch' },
-  { id: 'sw-it', label: 'SW-IT Access Switch' },
-  { id: 'sw-sales', label: 'SW-SALES Access Switch' },
-  { id: 'sw-mgmt', label: 'SW-MGMT Access Switch' },
-  { id: 'sw-servers', label: 'SW-SERVERS Access Switch' }
+  { id: 'sw-hr', label: 'SW-HR Switch' },
+  { id: 'sw-finance', label: 'SW-FINANCE Switch' },
+  { id: 'sw-it', label: 'SW-IT Switch' },
+  { id: 'sw-sales', label: 'SW-SALES Switch' },
+  { id: 'sw-mgmt', label: 'SW-MGMT Switch' },
+  { id: 'sw-servers', label: 'SW-SERVERS Switch' }
 ];
 
 export default function ConfigGenerator() {
@@ -52,38 +52,46 @@ export default function ConfigGenerator() {
   return (
     <div className="space-y-6">
       {/* Header & Tabs */}
-      <div className="surface-panel p-5 space-y-4">
+      <div className="surface-panel p-6 space-y-4 border-cyan-500/30 shadow-glass">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
-              <FileCode className="w-5 h-5 text-blue-500" /> Cisco IOS CLI Configuration Generator
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[10px] font-mono font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/40">
+                CLI COMPILER
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            </div>
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <FileCode className="w-5 h-5 text-cyan-400" /> Cisco IOS CLI Configuration Generator
             </h2>
-            <p className="text-xs text-zinc-400">Dynamically compiled Cisco IOS router and switch configuration files</p>
+            <p className="text-xs text-slate-400 font-mono">Dynamically compiled Cisco IOS router and switch configuration files</p>
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={() => setViewMode(viewMode === 'cli' ? 'diff' : 'cli')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm border text-xs font-mono transition-colors ${
-                viewMode === 'diff' ? 'bg-purple-950 text-purple-300 border-purple-800' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200'
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
+                viewMode === 'diff' 
+                  ? 'bg-purple-950/80 text-purple-300 border-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.3)] font-bold' 
+                  : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-slate-200 hover:bg-slate-800'
               }`}
             >
               <GitCompare className="w-3.5 h-3.5" />
-              <span>{viewMode === 'diff' ? 'Showing CLI Diff' : 'View Config Diff'}</span>
+              <span>{viewMode === 'diff' ? 'Mode: Showing CLI Diff' : 'View Config Diff'}</span>
             </button>
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-mono transition-colors cursor-pointer"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copied ? 'Copied' : 'Copy'}</span>
+              <span>{copied ? 'Copied!' : 'Copy'}</span>
             </button>
 
             <button
               onClick={handleDownload}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold text-xs transition-colors shadow-sm border-blue-500/50 cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs font-mono transition-all shadow-[0_0_12px_rgba(6,182,212,0.3)] cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Download .txt</span>
@@ -92,15 +100,15 @@ export default function ConfigGenerator() {
         </div>
 
         {/* Device selector tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pt-2 border-t border-zinc-800">
+        <div className="flex items-center gap-2 overflow-x-auto pt-3 border-t border-slate-800">
           {DEVICES.map((dev) => (
             <button
               key={dev.id}
               onClick={() => setSelectedDevice(dev.id)}
-              className={`px-3 py-1.5 rounded-sm text-xs font-mono whitespace-nowrap transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all cursor-pointer ${
                 selectedDevice === dev.id
-                  ? 'bg-blue-600/20 text-blue-500 border border-blue-600/40 shadow-sm border-blue-500/50 font-bold'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.25)] font-bold'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
               }`}
             >
               {dev.label}
@@ -110,30 +118,33 @@ export default function ConfigGenerator() {
       </div>
 
       {/* Monospace Viewer */}
-      <div className="surface-panel p-5 relative">
+      <div className="surface-panel p-5 relative border-cyan-500/20 shadow-2xl bg-slate-950">
         {isLoading ? (
-          <div className="py-16 text-center text-zinc-500 font-mono text-xs">
-            Compiling Cisco IOS commands for {selectedDevice}...
+          <div className="py-20 text-center text-slate-400 font-mono text-xs">
+            Compiling Cisco IOS syntax trees for {selectedDevice}...
           </div>
         ) : (
-          <div className="bg-zinc-950 p-5 rounded-sm border border-zinc-800 font-mono text-xs overflow-auto max-h-[600px] leading-relaxed shadow-inner">
+          <div className="bg-slate-950 p-6 rounded-lg border border-slate-800 font-mono text-xs overflow-auto max-h-[620px] leading-relaxed shadow-inner relative">
+            <div className="scanline-overlay absolute inset-0 pointer-events-none opacity-15" />
             {configText ? (
               configText.split('\n').map((line, idx) => {
-                let colorClass = 'text-zinc-300';
-                if (line.startsWith('!')) colorClass = 'text-zinc-500 italic';
-                else if (line.startsWith('+')) colorClass = 'text-emerald-400 font-bold bg-emerald-950/30 px-1';
-                else if (line.startsWith('-')) colorClass = 'text-rose-400 font-bold bg-rose-950/30 px-1';
-                else if (line.startsWith('interface') || line.startsWith('vlan') || line.startsWith('ip access-list')) colorClass = 'text-blue-500 font-bold';
-                else if (line.startsWith('ip address') || line.startsWith('ip dhcp')) colorClass = 'text-purple-300';
+                let colorClass = 'text-slate-300';
+                if (line.startsWith('!')) colorClass = 'text-slate-500 italic';
+                else if (line.startsWith('+')) colorClass = 'text-emerald-400 font-bold bg-emerald-950/40 px-1.5 rounded';
+                else if (line.startsWith('-')) colorClass = 'text-rose-400 font-bold bg-rose-950/40 px-1.5 rounded';
+                else if (line.startsWith('interface') || line.startsWith('vlan') || line.startsWith('ip access-list')) colorClass = 'text-cyan-400 font-bold';
+                else if (line.startsWith('ip address') || line.startsWith('ip dhcp')) colorClass = 'text-purple-300 font-semibold';
+                else if (line.startsWith('permit') || line.startsWith('deny')) colorClass = line.startsWith('permit') ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold';
 
                 return (
-                  <div key={idx} className={colorClass}>
-                    {line || ' '}
+                  <div key={idx} className={`flex gap-3 leading-6 ${colorClass}`}>
+                    <span className="text-slate-600 select-none text-[10px] w-8 text-right shrink-0">{idx + 1}</span>
+                    <span>{line || ' '}</span>
                   </div>
                 );
               })
             ) : (
-              <span className="text-slate-600">No CLI output available.</span>
+              <span className="text-slate-600">No CLI output generated for this profile.</span>
             )}
           </div>
         )}
