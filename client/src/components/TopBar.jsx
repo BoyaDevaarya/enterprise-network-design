@@ -37,11 +37,13 @@ export default function TopBar({ onOpenCommandPalette }) {
         {/* Command Palette Trigger */}
         <button
           onClick={onOpenCommandPalette}
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors"
+          aria-label="Open command palette (Command + K)"
+          title="Open Command Palette (⌘K)"
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 hover:bg-slate-800 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
         >
           <Terminal className="w-3.5 h-3.5" />
           <span>Command Palette</span>
-          <kbd className="px-1.5 py-0.5 text-[10px] bg-slate-800 rounded text-slate-300 font-mono">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 text-[10px] bg-slate-800 rounded text-slate-300 font-mono border border-slate-700 shadow-sm">⌘K</kbd>
         </button>
 
         {/* Guided Demo Tour */}

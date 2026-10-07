@@ -243,58 +243,76 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Filter & Search Bar */}
-      <div className="glass-panel p-4 flex flex-wrap items-center justify-between gap-4">
-        {/* Search Box */}
-        <div className="relative flex-1 min-w-[240px]">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search portal resources by name, endpoint, IP..."
-            className="w-full bg-slate-900/90 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
-          />
+      {/* Unified Filter & Search Toolbar */}
+      <div className="sticky top-0 z-20 glass-panel p-3 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 border-y border-slate-800/80 shadow-md bg-slate-950/80 backdrop-blur-md">
+        <div className="flex items-center gap-3 w-full lg:w-auto flex-1">
+          {/* Search Box */}
+          <div className="relative flex-1 min-w-[200px] max-w-md">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search portal resources..."
+              className="w-full bg-slate-900/90 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+            />
+          </div>
+
+          {/* Department Filter */}
+          <div className="flex items-center gap-2 border-l border-slate-800 pl-3">
+            <Filter className={`w-3.5 h-3.5 ${selectedDeptFilter !== 'ALL' ? 'text-cyan-400' : 'text-slate-500'}`} />
+            <select
+              value={selectedDeptFilter}
+              onChange={(e) => setSelectedDeptFilter(e.target.value)}
+              className={`bg-slate-900 border rounded-lg px-3 py-2 text-xs focus:outline-none transition-colors ${selectedDeptFilter !== 'ALL' ? 'border-cyan-500/50 text-cyan-300' : 'border-slate-700 text-slate-300 focus:border-cyan-500'}`}
+            >
+              <option value="ALL">All Departments</option>
+              <option value="HR">HR</option>
+              <option value="Finance">Finance</option>
+              <option value="IT">IT</option>
+              <option value="Sales">Sales</option>
+              <option value="Management">Management</option>
+              <option value="Servers">Servers</option>
+            </select>
+          </div>
         </div>
 
-        {/* Category Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto py-1">
-          {categoryOptions.map(cat => {
-            const Icon = cat.icon;
-            const isSelected = selectedCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                  isSelected
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-glowCyan'
-                    : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200 hover:border-slate-700'
-                }`}
-              >
-                {Icon && <Icon className="w-3.5 h-3.5" />}
-                <span>{cat.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Department Filter */}
-        <div className="flex items-center gap-2">
-          <Filter className="w-3.5 h-3.5 text-slate-400" />
-          <select
-            value={selectedDeptFilter}
-            onChange={(e) => setSelectedDeptFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-cyan-500"
-          >
-            <option value="ALL">All Departments</option>
-            <option value="HR">HR</option>
-            <option value="Finance">Finance</option>
-            <option value="IT">IT</option>
-            <option value="Sales">Sales</option>
-            <option value="Management">Management</option>
-            <option value="Servers">Servers</option>
-          </select>
+        {/* Category Pills & Reset */}
+        <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0">
+          <div className="flex items-center gap-1.5 border-r border-slate-800 pr-3">
+            {categoryOptions.map(cat => {
+              const Icon = cat.icon;
+              const isSelected = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+                    isSelected
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.15)]'
+                      : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200 hover:bg-slate-800 hover:border-slate-700'
+                  }`}
+                >
+                  {Icon && <Icon className="w-3.5 h-3.5" />}
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          
+          {(searchQuery || selectedCategory !== 'ALL' || selectedDeptFilter !== 'ALL') && (
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('ALL');
+                setSelectedDeptFilter('ALL');
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors whitespace-nowrap"
+            >
+              <X className="w-3.5 h-3.5" />
+              Reset Filters
+            </button>
+          )}
         </div>
       </div>
 
@@ -314,7 +332,7 @@ export default function Dashboard() {
             No portal resources match the selected filters.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {filteredResources.map((resObj) => {
               const isLocked = !resObj.accessible;
               const canEdit = resObj.canEdit;
@@ -323,43 +341,55 @@ export default function Dashboard() {
                 <div
                   key={resObj.id}
                   onClick={() => handleOpenResource(resObj)}
-                  className={`glass-panel p-5 cursor-pointer transition-all hover:scale-[1.01] flex flex-col justify-between space-y-4 ${
+                  className={`group glass-panel p-5 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col min-h-[260px] ${
                     isLocked
-                      ? 'border-rose-500/30 hover:border-rose-500/80 hover:shadow-glowRose'
+                      ? 'border-slate-800 hover:border-rose-500/60 hover:shadow-[0_0_15px_rgba(244,63,94,0.15)]'
                       : canEdit
-                      ? 'border-emerald-500/40 hover:border-emerald-400 hover:shadow-glowCyan'
-                      : 'border-amber-500/30 hover:border-amber-400'
+                      ? 'border-slate-800 hover:border-emerald-500/60 hover:shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+                      : 'border-slate-800 hover:border-cyan-500/60 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)]'
                   }`}
                 >
-                  {/* Top Header */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-1.5">
+                  {/* Two-Tier Header inside Card */}
+                  <div className="flex flex-col gap-3 mb-4">
+                    {/* Tier 1: Resource Type, Security Class, R/W State */}
+                    <div className="flex items-center justify-between gap-2 border-b border-slate-800/60 pb-2">
+                      <div className="flex flex-wrap items-center gap-1.5">
                         <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded border flex items-center gap-1 ${getCategoryBadgeClass(resObj.category)}`}>
                           {getCategoryIcon(resObj.category)}
                           {(resObj.category || 'resource').replace('_', ' ')}
                         </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
-                          {resObj.ownerDepartment}
+                        
+                        <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded uppercase ${
+                          resObj.sensitivity === 'critical' ? 'bg-rose-500/20 text-rose-200 border border-rose-500' :
+                          resObj.sensitivity === 'high' ? 'bg-amber-500/20 text-amber-200 border border-amber-500' :
+                          'bg-slate-800 text-slate-300 border border-slate-700'
+                        }`}>
+                          {resObj.sensitivity || 'NORMAL'}
                         </span>
+
+                        {resObj.accessLevel === 'top_secret' && (
+                          <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-rose-600/30 border border-rose-500 text-rose-100 uppercase">
+                            TOP SECRET
+                          </span>
+                        )}
                       </div>
 
                       {/* Read / Write Status & Delete Button */}
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 shrink-0">
                         {isLocked ? (
-                          <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950/80 border border-rose-800 text-rose-300">
-                            <Lock className="w-3 h-3 text-rose-400" />
+                          <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/50 text-rose-400">
+                            <Lock className="w-3 h-3" />
                             LOCKED
                           </span>
                         ) : canEdit ? (
-                          <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-300">
-                            <Edit3 className="w-3 h-3 text-emerald-400" />
-                            READ/WRITE
+                          <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/50 text-emerald-400">
+                            <Edit3 className="w-3 h-3" />
+                            R/W
                           </span>
                         ) : (
-                          <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-300">
-                            <Eye className="w-3 h-3 text-amber-400" />
-                            READ ONLY
+                          <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/50 text-amber-400">
+                            <Eye className="w-3 h-3" />
+                            R/O
                           </span>
                         )}
 
@@ -368,7 +398,7 @@ export default function Dashboard() {
                             type="button"
                             onClick={(e) => handleDeleteResource(e, resObj)}
                             title="Delete Resource"
-                            className="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
+                            className="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-rose-500/20 transition-colors"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -376,42 +406,37 @@ export default function Dashboard() {
                       </div>
                     </div>
 
-                    <h4 className="text-base font-bold text-slate-100 flex items-center justify-between">
-                      <span>{resObj.name}</span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Status: ONLINE" />
-                    </h4>
-
-                    {/* Endpoint / IP Display */}
-                    {(resObj.endpoint || resObj.ipAddress) && (
-                      <div className="font-mono text-[11px] text-cyan-400/90 bg-slate-950/60 px-2.5 py-1 rounded border border-slate-800/80 truncate">
-                        {resObj.endpoint || resObj.ipAddress}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                    {resObj.description}
-                  </p>
-
-                  {/* Footer Bar */}
-                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-1.5">
-                      <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded uppercase ${
-                        resObj.sensitivity === 'critical' ? 'bg-rose-950 text-rose-300 border border-rose-800' :
-                        resObj.sensitivity === 'high' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
-                        'bg-slate-900 text-slate-400'
-                      }`}>
-                        {resObj.sensitivity || 'NORMAL'}
-                      </span>
-                      {resObj.accessLevel && (
-                        <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-purple-300 uppercase">
-                          {resObj.accessLevel}
-                        </span>
+                    {/* Tier 2: Title & Endpoint */}
+                    <div>
+                      <h4 className="text-base font-bold text-slate-100 flex items-center justify-between mb-2">
+                        <span className="line-clamp-1">{resObj.name}</span>
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0 ml-2" title="Status: ONLINE" />
+                      </h4>
+                      
+                      {(resObj.endpoint || resObj.ipAddress) && (
+                        <div className="font-mono text-[11px] text-cyan-300 bg-cyan-950/30 px-2.5 py-1.5 rounded border border-cyan-900/50 break-all leading-tight">
+                          {resObj.endpoint || resObj.ipAddress}
+                        </div>
                       )}
                     </div>
+                  </div>
 
-                    <span className={`flex items-center gap-1 font-medium text-xs ${isLocked ? 'text-rose-400' : 'text-cyan-400'}`}>
+                  {/* Description - Takes available space */}
+                  <div className="flex-1">
+                    <p className="text-xs text-slate-400 leading-relaxed overflow-hidden">
+                      {resObj.description}
+                    </p>
+                  </div>
+
+                  {/* Footer Bar */}
+                  <div className="pt-3 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800/50 text-slate-400 border border-slate-700">
+                        Owner: {resObj.ownerDepartment}
+                      </span>
+                    </div>
+
+                    <span className={`flex items-center gap-1 font-medium text-xs transition-transform group-hover:translate-x-1 ${isLocked ? 'text-rose-400' : 'text-cyan-400'}`}>
                       {isLocked ? 'Request Access' : canEdit ? 'View & Edit' : 'View Content'}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
