@@ -177,7 +177,10 @@ router.put('/:id', authenticate, requireResourcePermission('write'), (req, res, 
     const updated = {
       ...resources[idx],
       ...payload,
-      id: resources[idx].id // Protect ID from modification
+      id: resources[idx].id, // Protect ID from modification
+      permissions: payload.permissions
+        ? { ...resources[idx].permissions, ...payload.permissions }
+        : resources[idx].permissions
     };
 
     resources[idx] = updated;
