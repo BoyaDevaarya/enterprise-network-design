@@ -39,7 +39,7 @@ const queryClient = new QueryClient({
 
 function LoadingFallback() {
   return (
-    <div className="p-12 text-center font-mono text-xs text-slate-500 animate-pulse">
+    <div className="p-12 text-center font-mono text-xs text-zinc-500 animate-pulse">
       Loading console module...
     </div>
   );
@@ -95,14 +95,14 @@ function AppContent() {
     return (
       <div className="min-h-screen bg-[#070b16] flex flex-col items-center justify-center p-6 text-center">
         <BackgroundCanvas />
-        <div className="glass-panel p-8 max-w-md w-full relative z-10 border-cyan-500/40 shadow-glowCyan space-y-4">
-          <div className="w-12 h-12 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto">
+        <div className="surface-panel p-8 max-w-md w-full relative z-10 border-blue-600/40 shadow-sm border-blue-500/50 space-y-4">
+          <div className="w-12 h-12 rounded-full bg-blue-600/20 text-blue-500 flex items-center justify-center mx-auto">
             <Activity className="w-6 h-6 animate-spin" />
           </div>
-          <h2 className="text-lg font-bold text-slate-100">
+          <h2 className="text-lg font-bold text-zinc-100">
             {isWakingUp ? 'Waking up the server...' : 'Booting Console Session'}
           </h2>
-          <p className="text-xs text-slate-400 leading-relaxed font-mono">
+          <p className="text-xs text-zinc-400 leading-relaxed font-mono">
             {isWakingUp
               ? 'Free tier web services spin down after inactivity. Waking up instance, this can take up to 60 seconds.'
               : 'Verifying session token and ACL credentials...'}
@@ -113,7 +113,7 @@ function AppContent() {
                 setIsWakingUp(false);
                 checkAuth();
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500 text-slate-950 font-bold text-xs shadow-glowCyan hover:bg-cyan-400 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-blue-600 text-zinc-950 font-bold text-xs shadow-sm border-blue-500/50 hover:bg-blue-500 transition-colors"
             >
               <RefreshCw className="w-3.5 h-3.5" /> Retry Health Check
             </button>
@@ -132,7 +132,7 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070b16] text-slate-100 flex flex-col relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#070b16] text-zinc-100 flex flex-col relative overflow-x-hidden">
       <BackgroundCanvas />
 
       <TopBar onOpenCommandPalette={() => setIsCmdOpen(true)} />

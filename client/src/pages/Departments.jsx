@@ -60,7 +60,7 @@ export default function Departments() {
   };
 
   if (isLoading) {
-    return <div className="p-12 text-center text-slate-400 font-mono text-xs">Loading department configuration...</div>;
+    return <div className="p-12 text-center text-zinc-400 font-mono text-xs">Loading department configuration...</div>;
   }
 
   const deptList = departments || [];
@@ -70,17 +70,17 @@ export default function Departments() {
 
   return (
     <div className="space-y-6">
-      <div className="glass-panel p-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="surface-panel p-5 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Building className="w-5 h-5 text-cyan-400" /> Department Subnet Management
+          <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+            <Building className="w-5 h-5 text-blue-500" /> Department Subnet Management
           </h2>
-          <p className="text-xs text-slate-400">Configure corporate department subnets, VLAN allocations, and trust levels</p>
+          <p className="text-xs text-zinc-400">Configure corporate department subnets, VLAN allocations, and trust levels</p>
         </div>
 
         <button
           onClick={() => setIsAddOpen(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors shadow-glowCyan cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold text-xs transition-colors shadow-sm border-blue-500/50 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Department</span>
@@ -90,34 +90,34 @@ export default function Departments() {
       {/* Department Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {deptList.map((d) => (
-          <div key={d.id} className="glass-panel p-5 space-y-3 relative">
+          <div key={d.id} className="surface-panel p-5 space-y-3 relative">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
-                <h3 className="text-base font-bold text-slate-100">{d.name}</h3>
+                <h3 className="text-base font-bold text-zinc-100">{d.name}</h3>
               </div>
               <button
                 onClick={() => handleDeleteDepartment(d.id)}
-                className="text-slate-500 hover:text-rose-400 p-1"
+                className="text-zinc-500 hover:text-rose-400 p-1"
                 title="Delete Department"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-slate-800">
-              <div className="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-                <span className="text-slate-500 text-[9px] block">VLAN ID</span>
-                <span className="text-cyan-300 font-bold">VLAN {d.vlan}</span>
+            <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-zinc-800">
+              <div className="bg-zinc-900/60 p-2 rounded-sm border border-zinc-800">
+                <span className="text-zinc-500 text-[9px] block">VLAN ID</span>
+                <span className="text-blue-400 font-bold">VLAN {d.vlan}</span>
               </div>
-              <div className="bg-slate-900/60 p-2 rounded-lg border border-slate-800">
-                <span className="text-slate-500 text-[9px] block">TRUST LEVEL</span>
+              <div className="bg-zinc-900/60 p-2 rounded-sm border border-zinc-800">
+                <span className="text-zinc-500 text-[9px] block">TRUST LEVEL</span>
                 <span className="text-purple-300 font-bold">Level {d.trust}/5</span>
               </div>
             </div>
 
-            <div className="bg-slate-900/40 p-2 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-300">
-              <span className="text-slate-500 block text-[9px]">SUBNET / GATEWAY</span>
+            <div className="bg-zinc-900/40 p-2 rounded-sm border border-zinc-800 text-[11px] font-mono text-zinc-300">
+              <span className="text-zinc-500 block text-[9px]">SUBNET / GATEWAY</span>
               {d.subnet} ({d.gateway})
             </div>
           </div>
@@ -126,42 +126,42 @@ export default function Departments() {
 
       {/* Add Department Wizard Modal */}
       {isAddOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-          <div className="glass-panel p-6 max-w-md w-full border-cyan-500/40 shadow-glowCyan space-y-4 relative">
-            <button onClick={() => setIsAddOpen(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-sm">
+          <div className="surface-panel p-6 max-w-md w-full border-blue-600/40 shadow-sm border-blue-500/50 space-y-4 relative">
+            <button onClick={() => setIsAddOpen(false)} className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-200">
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-base font-bold text-slate-100">Add Department Wizard</h3>
+            <h3 className="text-base font-bold text-zinc-100">Add Department Wizard</h3>
 
             <form onSubmit={handleCreateDepartment} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 mb-1 font-medium">Department Name</label>
+                <label className="block text-zinc-300 mb-1 font-medium">Department Name</label>
                 <input
                   type="text"
                   value={deptName}
                   onChange={(e) => setDeptName(e.target.value)}
                   placeholder="e.g., Legal or Research"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-medium">Badge Color</label>
+                  <label className="block text-zinc-300 mb-1 font-medium">Badge Color</label>
                   <input
                     type="color"
                     value={color}
                     onChange={(e) => setColor(e.target.value)}
-                    className="w-full h-10 bg-slate-900 border border-slate-700 rounded-lg cursor-pointer p-1"
+                    className="w-full h-10 bg-zinc-900 border border-zinc-700 rounded-sm cursor-pointer p-1"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-300 mb-1 font-medium">Trust Level (1-5)</label>
+                  <label className="block text-zinc-300 mb-1 font-medium">Trust Level (1-5)</label>
                   <select
                     value={trust}
                     onChange={(e) => setTrust(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100"
                   >
                     {[1, 2, 3, 4, 5].map((t) => (
                       <option key={t} value={t}>Level {t}</option>
@@ -171,24 +171,24 @@ export default function Departments() {
               </div>
 
               {/* Auto Allocation Preview Card */}
-              <div className="p-3 bg-slate-900/90 rounded-xl border border-cyan-500/30 text-xs font-mono space-y-1">
-                <span className="text-[10px] text-cyan-400 font-bold uppercase">Auto-Allocated Topology Settings:</span>
-                <div className="text-slate-300">VLAN ID: <span className="text-cyan-300 font-bold">{previewVlan}</span></div>
-                <div className="text-slate-300">Subnet: <span className="text-cyan-300 font-bold">{previewSubnet}</span></div>
+              <div className="p-3 bg-zinc-900/90 rounded-sm border border-blue-600/30 text-xs font-mono space-y-1">
+                <span className="text-[10px] text-blue-500 font-bold uppercase">Auto-Allocated Topology Settings:</span>
+                <div className="text-zinc-300">VLAN ID: <span className="text-blue-400 font-bold">{previewVlan}</span></div>
+                <div className="text-zinc-300">Subnet: <span className="text-blue-400 font-bold">{previewSubnet}</span></div>
               </div>
 
               <div className="flex items-center justify-between pt-2">
                 <button
                   type="button"
                   onClick={() => setIsAddOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium"
+                  className="px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold shadow-glowCyan cursor-pointer"
+                  className="px-5 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold shadow-sm border-blue-500/50 cursor-pointer"
                 >
                   {isSubmitting ? 'Allocating...' : 'Confirm Department'}
                 </button>

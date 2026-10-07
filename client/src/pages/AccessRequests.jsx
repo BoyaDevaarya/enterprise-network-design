@@ -36,27 +36,27 @@ export default function AccessRequests() {
   };
 
   if (isLoading) {
-    return <div className="p-12 text-center text-slate-400 font-mono text-xs">Loading pending access requests...</div>;
+    return <div className="p-12 text-center text-zinc-400 font-mono text-xs">Loading pending access requests...</div>;
   }
 
   const reqList = requests || [];
 
   return (
     <div className="space-y-6">
-      <div className="glass-panel p-5">
-        <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-          <Inbox className="w-5 h-5 text-cyan-400" /> Access Request Inbox ({reqList.length})
+      <div className="surface-panel p-5">
+        <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+          <Inbox className="w-5 h-5 text-blue-500" /> Access Request Inbox ({reqList.length})
         </h2>
-        <p className="text-xs text-slate-400">Review member access requests for restricted resources</p>
+        <p className="text-xs text-zinc-400">Review member access requests for restricted resources</p>
       </div>
 
-      <div className="glass-panel p-6 overflow-x-auto">
+      <div className="surface-panel p-6 overflow-x-auto">
         {reqList.length === 0 ? (
-          <div className="p-8 text-center text-slate-500 font-mono text-xs">No access requests pending.</div>
+          <div className="p-8 text-center text-zinc-500 font-mono text-xs">No access requests pending.</div>
         ) : (
           <table className="w-full text-left text-xs border-collapse font-mono">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-500 text-[10px] uppercase">
+              <tr className="border-b border-zinc-800 text-zinc-500 text-[10px] uppercase">
                 <th className="py-3 px-4">User</th>
                 <th className="py-3 px-4">Resource Target</th>
                 <th className="py-3 px-4">Justification Reason</th>
@@ -64,15 +64,15 @@ export default function AccessRequests() {
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-zinc-800/60">
               {reqList.map((r) => (
-                <tr key={r.id} className="hover:bg-slate-900/50">
+                <tr key={r.id} className="hover:bg-zinc-900/50">
                   <td className="py-3 px-4">
-                    <div className="font-bold text-slate-200">{r.userName}</div>
-                    <div className="text-[11px] text-slate-400">{r.userEmail} ({r.userDepartment})</div>
+                    <div className="font-bold text-zinc-200">{r.userName}</div>
+                    <div className="text-[11px] text-zinc-400">{r.userEmail} ({r.userDepartment})</div>
                   </td>
-                  <td className="py-3 px-4 font-bold text-cyan-400">{r.resourceName} ({r.targetDepartment})</td>
-                  <td className="py-3 px-4 text-slate-300">{r.reason}</td>
+                  <td className="py-3 px-4 font-bold text-blue-500">{r.resourceName} ({r.targetDepartment})</td>
+                  <td className="py-3 px-4 text-zinc-300">{r.reason}</td>
                   <td className="py-3 px-4">
                     <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                       r.status === 'APPROVED' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
@@ -87,7 +87,7 @@ export default function AccessRequests() {
                       <>
                         <button
                           onClick={() => handleApprove(r)}
-                          className="px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-glowCyan cursor-pointer"
+                          className="px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs shadow-sm border-blue-500/50 cursor-pointer"
                         >
                           Approve (Safe-Change)
                         </button>

@@ -65,24 +65,24 @@ export default function Users() {
   };
 
   if (isLoading) {
-    return <div className="p-12 text-center text-slate-400 font-mono text-xs">Loading accounts database...</div>;
+    return <div className="p-12 text-center text-zinc-400 font-mono text-xs">Loading accounts database...</div>;
   }
 
   const deptList = departments || [];
 
   return (
     <div className="space-y-6">
-      <div className="glass-panel p-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="surface-panel p-5 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <UsersIcon className="w-5 h-5 text-cyan-400" /> Console User Management
+          <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+            <UsersIcon className="w-5 h-5 text-blue-500" /> Console User Management
           </h2>
-          <p className="text-xs text-slate-400">Manage console identity accounts, roles, and department assignments</p>
+          <p className="text-xs text-zinc-400">Manage console identity accounts, roles, and department assignments</p>
         </div>
 
         <button
           onClick={() => setIsAddOpen(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors shadow-glowCyan cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold text-xs transition-colors shadow-sm border-blue-500/50 cursor-pointer"
         >
           <UserPlus className="w-4 h-4" />
           <span>Add Console User</span>
@@ -90,10 +90,10 @@ export default function Users() {
       </div>
 
       {/* Users Table */}
-      <div className="glass-panel p-6 overflow-x-auto">
+      <div className="surface-panel p-6 overflow-x-auto">
         <table className="w-full text-left text-xs border-collapse font-mono">
           <thead>
-            <tr className="border-b border-slate-800 text-slate-500 text-[10px] uppercase">
+            <tr className="border-b border-zinc-800 text-zinc-500 text-[10px] uppercase">
               <th className="py-3 px-4">Name / Email</th>
               <th className="py-3 px-4">Department</th>
               <th className="py-3 px-4">Role</th>
@@ -101,17 +101,17 @@ export default function Users() {
               <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60">
+          <tbody className="divide-y divide-zinc-800/60">
             {users?.map((u) => (
-              <tr key={u.id} className="hover:bg-slate-900/50">
+              <tr key={u.id} className="hover:bg-zinc-900/50">
                 <td className="py-3 px-4">
-                  <div className="font-bold text-slate-200">{u.name}</div>
-                  <div className="text-[11px] text-slate-400">{u.email}</div>
+                  <div className="font-bold text-zinc-200">{u.name}</div>
+                  <div className="text-[11px] text-zinc-400">{u.email}</div>
                 </td>
-                <td className="py-3 px-4 font-bold text-cyan-400">{u.department}</td>
+                <td className="py-3 px-4 font-bold text-blue-500">{u.department}</td>
                 <td className="py-3 px-4">
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                    u.role === 'ADMIN' ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-slate-800 text-slate-300'
+                    u.role === 'ADMIN' ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-zinc-800 text-zinc-300'
                   }`}>
                     {u.role}
                   </span>
@@ -127,13 +127,13 @@ export default function Users() {
                 <td className="py-3 px-4 text-right space-x-2">
                   <button
                     onClick={() => handleToggleDisabled(u)}
-                    className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px]"
+                    className="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px]"
                   >
                     {u.disabled ? 'Enable' : 'Disable'}
                   </button>
                   <button
                     onClick={() => handleDeleteUser(u.id)}
-                    className="p-1 text-slate-500 hover:text-rose-400"
+                    className="p-1 text-zinc-500 hover:text-rose-400"
                     title="Delete User"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -147,58 +147,58 @@ export default function Users() {
 
       {/* Add User Modal */}
       {isAddOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-          <div className="glass-panel p-6 max-w-md w-full border-cyan-500/40 shadow-glowCyan space-y-4 relative">
-            <button onClick={() => setIsAddOpen(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-sm">
+          <div className="surface-panel p-6 max-w-md w-full border-blue-600/40 shadow-sm border-blue-500/50 space-y-4 relative">
+            <button onClick={() => setIsAddOpen(false)} className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-200">
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-base font-bold text-slate-100">Create Console Account</h3>
+            <h3 className="text-base font-bold text-zinc-100">Create Console Account</h3>
 
             <form onSubmit={handleCreateUser} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 mb-1 font-medium">Full Name</label>
+                <label className="block text-zinc-300 mb-1 font-medium">Full Name</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Sarah Connor"
                   required
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1 font-medium">Email Address</label>
+                <label className="block text-zinc-300 mb-1 font-medium">Email Address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@enterprisenet.local"
                   required
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100 font-mono focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 mb-1 font-medium">Password</label>
+                <label className="block text-zinc-300 mb-1 font-medium">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100 font-mono focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 mb-1 font-medium">Department</label>
+                  <label className="block text-zinc-300 mb-1 font-medium">Department</label>
                   <select
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100"
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100"
                   >
                     {deptList.map((d) => (
                       <option key={d.id} value={d.id}>{d.name}</option>
@@ -207,11 +207,11 @@ export default function Users() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 mb-1 font-medium">Role</label>
+                  <label className="block text-zinc-300 mb-1 font-medium">Role</label>
                   <select
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 font-mono"
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-sm p-2.5 text-zinc-100 font-mono"
                   >
                     <option value="MEMBER">MEMBER</option>
                     <option value="ADMIN">ADMIN</option>
@@ -223,13 +223,13 @@ export default function Users() {
                 <button
                   type="button"
                   onClick={() => setIsAddOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium"
+                  className="px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold shadow-glowCyan cursor-pointer"
+                  className="px-5 py-2 rounded-sm bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold shadow-sm border-blue-500/50 cursor-pointer"
                 >
                   Create User
                 </button>

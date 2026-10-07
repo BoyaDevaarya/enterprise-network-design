@@ -39,24 +39,24 @@ export default function GuidedDemoTour() {
   const step = steps[currentStep] || steps[0];
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 max-w-md w-full glass-panel border-cyan-500/50 shadow-glowCyan p-5 animate-in slide-in-from-bottom duration-200">
+    <div className="fixed bottom-6 right-6 z-50 max-w-md w-full surface-panel border-blue-600/50 shadow-sm border-blue-500/50 p-5 animate-in slide-in-from-bottom duration-200">
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+        <div className="flex items-center gap-2 text-blue-500 font-bold text-xs uppercase tracking-wider">
           <ShieldCheck className="w-4 h-4" />
           <span>Guided Tour ({currentStep + 1} of {steps.length})</span>
         </div>
-        <button onClick={stopTour} className="text-slate-400 hover:text-slate-200">
+        <button onClick={stopTour} className="text-zinc-400 hover:text-zinc-200">
           <X className="w-4 h-4" />
         </button>
       </div>
 
-      <h3 className="text-sm font-bold text-slate-100 mb-1">{step.title}</h3>
-      <p className="text-xs text-slate-300 leading-relaxed mb-4">{step.description}</p>
+      <h3 className="text-sm font-bold text-zinc-100 mb-1">{step.title}</h3>
+      <p className="text-xs text-zinc-300 leading-relaxed mb-4">{step.description}</p>
 
-      <div className="flex items-center justify-between pt-2 border-t border-slate-800">
+      <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
         <button
           onClick={stopTour}
-          className="text-xs text-slate-400 hover:text-slate-200 font-medium"
+          className="text-xs text-zinc-400 hover:text-zinc-200 font-medium"
         >
           Skip Tour
         </button>
@@ -65,7 +65,7 @@ export default function GuidedDemoTour() {
           {currentStep > 0 && (
             <button
               onClick={prevStep}
-              className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs hover:bg-slate-700"
+              className="px-3 py-1.5 rounded-sm bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700"
             >
               Previous
             </button>
@@ -75,7 +75,7 @@ export default function GuidedDemoTour() {
               if (step.onAction) step.onAction();
               if (currentStep < steps.length - 1) nextStep();
             }}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold text-xs hover:bg-cyan-400 transition-colors shadow-glowCyan"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-sm bg-blue-600 text-zinc-950 font-bold text-xs hover:bg-blue-500 transition-colors shadow-sm border-blue-500/50"
           >
             <span>{step.actionLabel}</span>
             <ArrowRight className="w-3.5 h-3.5" />

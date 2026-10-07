@@ -37,8 +37,8 @@ export default function NetworkMap() {
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center text-slate-400 font-mono text-xs flex items-center justify-center gap-2">
-        <Activity className="w-4 h-4 animate-spin text-cyan-400" /> Loading network topology map...
+      <div className="p-8 text-center text-zinc-400 font-mono text-xs flex items-center justify-center gap-2">
+        <Activity className="w-4 h-4 animate-spin text-blue-500" /> Loading network topology map...
       </div>
     );
   }
@@ -48,22 +48,22 @@ export default function NetworkMap() {
   return (
     <div className="space-y-6">
       {/* Header & Simulation Control Bar */}
-      <div className="glass-panel p-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="surface-panel p-5 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Network className="w-5 h-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+            <Network className="w-5 h-5 text-blue-500" />
             Interactive Enterprise Network Topology
           </h2>
-          <p className="text-xs text-slate-400">Router-on-a-stick topology with dynamic dot1Q subinterfaces and stateful firewalling</p>
+          <p className="text-xs text-zinc-400">Router-on-a-stick topology with dynamic dot1Q subinterfaces and stateful firewalling</p>
         </div>
 
         {/* Packet Simulator Form */}
-        <div className="flex flex-wrap items-center gap-2 bg-slate-900/80 p-2 rounded-xl border border-slate-800 text-xs">
-          <span className="font-mono text-[10px] text-cyan-400 px-1 uppercase">Traffic Test:</span>
+        <div className="flex flex-wrap items-center gap-2 bg-zinc-900/80 p-2 rounded-sm border border-zinc-800 text-xs">
+          <span className="font-mono text-[10px] text-blue-500 px-1 uppercase">Traffic Test:</span>
           <select
             value={simParams.srcDept}
             onChange={(e) => setSimParams({ ...simParams, srcDept: e.target.value })}
-            className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200"
+            className="bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-zinc-200"
           >
             {departments.map((d) => (
               <option key={d.id} value={d.id}>
@@ -75,7 +75,7 @@ export default function NetworkMap() {
           <select
             value={simParams.dstDept}
             onChange={(e) => setSimParams({ ...simParams, dstDept: e.target.value })}
-            className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200"
+            className="bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-zinc-200"
           >
             {departments.map((d) => (
               <option key={d.id} value={d.id}>
@@ -87,7 +87,7 @@ export default function NetworkMap() {
           <select
             value={simParams.test}
             onChange={(e) => setSimParams({ ...simParams, test: e.target.value })}
-            className="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200 font-mono"
+            className="bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-zinc-200 font-mono"
           >
             <option value="http">HTTP (tcp 80/443)</option>
             <option value="dns">DNS (udp 53)</option>
@@ -97,7 +97,7 @@ export default function NetworkMap() {
           <button
             onClick={handleRunSimulation}
             disabled={isSimulating}
-            className="flex items-center gap-1.5 px-3 py-1 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition-colors shadow-glowCyan cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-zinc-950 font-bold transition-colors shadow-sm border-blue-500/50 cursor-pointer"
           >
             <Send className="w-3.5 h-3.5" />
             <span>Send Packet</span>
@@ -106,7 +106,7 @@ export default function NetworkMap() {
       </div>
 
       {/* SVG Topology Viewport */}
-      <div className="glass-panel p-6 relative overflow-hidden min-h-[520px] flex items-center justify-center">
+      <div className="surface-panel p-6 relative overflow-hidden min-h-[520px] flex items-center justify-center">
         <svg viewBox="0 0 1000 500" className="w-full h-full max-h-[550px] select-none">
           <defs>
             <linearGradient id="grad-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -193,7 +193,7 @@ export default function NetworkMap() {
 
         {/* Simulation Result Callout Banner */}
         {simResult && (
-          <div className={`absolute bottom-4 left-6 right-6 p-4 rounded-xl border flex items-center justify-between backdrop-blur-md ${
+          <div className={`absolute bottom-4 left-6 right-6 p-4 rounded-sm border flex items-center justify-between backdrop-blur-md ${
             simResult.allowed ? 'bg-emerald-950/80 border-emerald-500/60 text-emerald-200' : 'bg-rose-950/80 border-rose-500/60 text-rose-200'
           }`}>
             <div className="flex items-center gap-3">
@@ -214,28 +214,28 @@ export default function NetworkMap() {
 
       {/* Node Detail Drawer Modal */}
       {selectedNode && (
-        <div className="glass-panel p-5 space-y-3 relative border-cyan-500/40">
-          <button onClick={() => setSelectedNode(null)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-200">
+        <div className="surface-panel p-5 space-y-3 relative border-blue-600/40">
+          <button onClick={() => setSelectedNode(null)} className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-200">
             <X className="w-5 h-5" />
           </button>
-          <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-            <Server className="w-4 h-4 text-cyan-400" /> Node Inspection: {selectedNode.name}
+          <h3 className="text-sm font-bold text-zinc-100 flex items-center gap-2">
+            <Server className="w-4 h-4 text-blue-500" /> Node Inspection: {selectedNode.name}
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-            <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">NODE ID</span>
-              <span className="text-cyan-300 font-bold">{selectedNode.id}</span>
+            <div className="bg-zinc-900/60 p-2.5 rounded-sm border border-zinc-800">
+              <span className="text-zinc-500 text-[10px] block">NODE ID</span>
+              <span className="text-blue-400 font-bold">{selectedNode.id}</span>
             </div>
-            <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">TYPE</span>
-              <span className="text-slate-300">{selectedNode.type}</span>
+            <div className="bg-zinc-900/60 p-2.5 rounded-sm border border-zinc-800">
+              <span className="text-zinc-500 text-[10px] block">TYPE</span>
+              <span className="text-zinc-300">{selectedNode.type}</span>
             </div>
-            <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">IP ADDRESS</span>
-              <span className="text-slate-300">{selectedNode.ip || 'DHCP Pool'}</span>
+            <div className="bg-zinc-900/60 p-2.5 rounded-sm border border-zinc-800">
+              <span className="text-zinc-500 text-[10px] block">IP ADDRESS</span>
+              <span className="text-zinc-300">{selectedNode.ip || 'DHCP Pool'}</span>
             </div>
-            <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">DEPARTMENT</span>
+            <div className="bg-zinc-900/60 p-2.5 rounded-sm border border-zinc-800">
+              <span className="text-zinc-500 text-[10px] block">DEPARTMENT</span>
               <span className="text-purple-300 font-bold">{selectedNode.department || 'Infrastructure'}</span>
             </div>
           </div>

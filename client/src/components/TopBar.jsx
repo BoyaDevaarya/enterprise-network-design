@@ -12,16 +12,16 @@ export default function TopBar({ onOpenCommandPalette }) {
   const isAdmin = user?.role === 'ADMIN';
 
   return (
-    <header className="sticky top-0 z-30 w-full glass-panel !rounded-none !border-x-0 !border-t-0 px-4 lg:px-6 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-30 w-full surface-panel !rounded-none !border-x-0 !border-t-0 px-4 lg:px-6 py-3 flex items-center justify-between">
       {/* Brand & Connection Status */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+          <div className="w-8 h-8 rounded-sm bg-blue-600/10 border border-blue-600/30 flex items-center justify-center text-blue-500">
             <Shield className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-base font-bold tracking-wide text-slate-100 flex items-center gap-2">
-              EnterpriseNet <span className="text-xs font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/50">ACCESS PORTAL</span>
+            <h1 className="text-base font-bold tracking-wide text-zinc-100 flex items-center gap-2">
+              EnterpriseNet <span className="text-xs font-mono px-2 py-0.5 rounded bg-cyan-950 text-blue-500 border border-cyan-800/50">ACCESS PORTAL</span>
             </h1>
           </div>
         </div>
@@ -39,17 +39,17 @@ export default function TopBar({ onOpenCommandPalette }) {
           onClick={onOpenCommandPalette}
           aria-label="Open command palette (Command + K)"
           title="Open Command Palette (⌘K)"
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 hover:bg-slate-800 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-sm bg-zinc-900/80 border border-zinc-800 text-xs text-zinc-400 hover:text-blue-500 hover:border-blue-600/40 hover:bg-zinc-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-600/50"
         >
           <Terminal className="w-3.5 h-3.5" />
           <span>Command Palette</span>
-          <kbd className="px-1.5 py-0.5 text-[10px] bg-slate-800 rounded text-slate-300 font-mono border border-slate-700 shadow-sm">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 text-[10px] bg-zinc-800 rounded text-zinc-300 font-mono border border-zinc-700 shadow-sm">⌘K</kbd>
         </button>
 
         {/* Guided Demo Tour */}
         <button
           onClick={startTour}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-400 hover:bg-cyan-500/20 font-medium transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-blue-600/10 border border-blue-600/30 text-xs text-blue-500 hover:bg-blue-600/20 font-medium transition-colors"
         >
           <Activity className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Guided Demo</span>
@@ -61,7 +61,7 @@ export default function TopBar({ onOpenCommandPalette }) {
             <select
               value={previewDept || ''}
               onChange={(e) => setPreviewDept(e.target.value || null)}
-              className="bg-slate-900 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 cursor-pointer"
+              className="bg-zinc-900 text-xs text-zinc-200 border border-zinc-700 rounded-sm px-2.5 py-1.5 focus:outline-none focus:border-blue-600 cursor-pointer"
             >
               <option value="">Preview Dept (Off)</option>
               {DEPARTMENTS.map((dept) => (
@@ -74,12 +74,12 @@ export default function TopBar({ onOpenCommandPalette }) {
         )}
 
         {/* User Info & Role Pill */}
-        <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-slate-800">
+        <div className="hidden lg:flex items-center gap-2 pl-2 border-l border-zinc-800">
           <div className="text-right">
-            <div className="text-xs font-semibold text-slate-200">{user?.name || user?.email}</div>
-            <div className="text-[10px] text-slate-400 flex items-center justify-end gap-1 font-mono">
+            <div className="text-xs font-semibold text-zinc-200">{user?.name || user?.email}</div>
+            <div className="text-[10px] text-zinc-400 flex items-center justify-end gap-1 font-mono">
               <span>{user?.department}</span>
-              <span className={`px-1 rounded text-[9px] ${isAdmin ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-slate-800 text-slate-300'}`}>
+              <span className={`px-1 rounded text-[9px] ${isAdmin ? 'bg-purple-950 text-purple-300 border border-purple-800' : 'bg-zinc-800 text-zinc-300'}`}>
                 {user?.role}
               </span>
             </div>
@@ -90,7 +90,7 @@ export default function TopBar({ onOpenCommandPalette }) {
         <button
           onClick={logout}
           title="Sign out"
-          className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+          className="p-1.5 rounded-sm text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
         >
           <LogOut className="w-4 h-4" />
         </button>

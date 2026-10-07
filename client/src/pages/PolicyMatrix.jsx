@@ -76,7 +76,7 @@ export default function PolicyMatrix() {
 
   if (loadingMatrix || loadingRules) {
     return (
-      <div className="p-12 text-center text-slate-400 font-mono text-xs">
+      <div className="p-12 text-center text-zinc-400 font-mono text-xs">
         Calculating live firewall matrix state...
       </div>
     );
@@ -87,21 +87,21 @@ export default function PolicyMatrix() {
   return (
     <div className="space-y-6">
       {/* Top Controls & Exposure Heatmap Toggle */}
-      <div className="glass-panel p-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="surface-panel p-5 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <Grid className="w-5 h-5 text-cyan-400" /> Policy Matrix 2.0 Control Center
+          <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+            <Grid className="w-5 h-5 text-blue-500" /> Policy Matrix 2.0 Control Center
           </h2>
-          <p className="text-xs text-slate-400">Interactive firewall policy matrix with real-time exposure heatmaps</p>
+          <p className="text-xs text-zinc-400">Interactive firewall policy matrix with real-time exposure heatmaps</p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowHeatmap(!showHeatmap)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-sm border text-xs font-bold transition-all cursor-pointer ${
               showHeatmap
-                ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-glowAmber'
-                : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-sm border-amber-500/50'
+                : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-zinc-200'
             }`}
           >
             <Flame className="w-4 h-4 text-amber-400" />
@@ -111,16 +111,16 @@ export default function PolicyMatrix() {
       </div>
 
       {/* Grid Matrix Table */}
-      <div className="glass-panel p-6 overflow-x-auto">
+      <div className="surface-panel p-6 overflow-x-auto">
         <table className="w-full text-center border-collapse text-xs select-none">
           <thead>
             <tr>
-              <th className="p-3 text-left font-mono text-[10px] text-slate-500 uppercase">SRC \ DST</th>
+              <th className="p-3 text-left font-mono text-[10px] text-zinc-500 uppercase">SRC \ DST</th>
               {deptList.map((dst) => (
                 <th
                   key={dst.id}
                   className={`p-3 font-mono font-bold text-xs transition-colors ${
-                    hoveredCell?.dst === dst.id ? 'text-cyan-400 bg-cyan-950/30' : 'text-slate-300'
+                    hoveredCell?.dst === dst.id ? 'text-blue-500 bg-cyan-950/30' : 'text-zinc-300'
                   }`}
                 >
                   {dst.id}
@@ -132,7 +132,7 @@ export default function PolicyMatrix() {
             {deptList.map((src) => (
               <tr key={src.id}>
                 <td className={`p-3 text-left font-mono font-bold text-xs transition-colors ${
-                  hoveredCell?.src === src.id ? 'text-cyan-400 bg-cyan-950/30' : 'text-slate-300'
+                  hoveredCell?.src === src.id ? 'text-blue-500 bg-cyan-950/30' : 'text-zinc-300'
                 }`}>
                   {src.id}
                 </td>
@@ -180,9 +180,9 @@ export default function PolicyMatrix() {
       </div>
 
       {/* Advanced Rules Table */}
-      <div className="glass-panel p-6 space-y-4">
+      <div className="surface-panel p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
+          <h3 className="text-sm font-bold text-zinc-200 flex items-center gap-2">
             <span>Advanced ACL Rules Table ({rules?.length || 0})</span>
           </h3>
         </div>
@@ -190,7 +190,7 @@ export default function PolicyMatrix() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse font-mono">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-500 text-[10px] uppercase">
+              <tr className="border-b border-zinc-800 text-zinc-500 text-[10px] uppercase">
                 <th className="py-2.5 px-3">Order</th>
                 <th className="py-2.5 px-3">Source</th>
                 <th className="py-2.5 px-3">Destination</th>
@@ -200,10 +200,10 @@ export default function PolicyMatrix() {
                 <th className="py-2.5 px-3 text-right">Delete</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-zinc-800/60">
               {rules?.map((r) => (
-                <tr key={r.id} className="hover:bg-slate-900/50">
-                  <td className="py-2.5 px-3 font-bold text-cyan-400">#{r.order || r.id}</td>
+                <tr key={r.id} className="hover:bg-zinc-900/50">
+                  <td className="py-2.5 px-3 font-bold text-blue-500">#{r.order || r.id}</td>
                   <td className="py-2.5 px-3">{r.srcDept}</td>
                   <td className="py-2.5 px-3">{r.dstDept}</td>
                   <td className="py-2.5 px-3 uppercase text-purple-300">{r.service}</td>
@@ -214,11 +214,11 @@ export default function PolicyMatrix() {
                       {r.action.toUpperCase()}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 text-slate-400 truncate max-w-xs">{r.comment}</td>
+                  <td className="py-2.5 px-3 text-zinc-400 truncate max-w-xs">{r.comment}</td>
                   <td className="py-2.5 px-3 text-right">
                     <button
                       onClick={() => handleDeleteRule(r.id)}
-                      className="text-slate-500 hover:text-rose-400 p-1"
+                      className="text-zinc-500 hover:text-rose-400 p-1"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>

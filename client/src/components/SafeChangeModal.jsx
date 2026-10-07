@@ -128,53 +128,53 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
-      <div className="w-full max-w-2xl glass-panel border-slate-700 shadow-2xl p-6 relative animate-in fade-in zoom-in-95 my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/85 backdrop-blur-md overflow-y-auto">
+      <div className="w-full max-w-2xl surface-panel border-zinc-700 shadow-2xl p-6 relative animate-in fade-in zoom-in-95 my-8">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-200"
+          className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-200"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-sm bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center">
             <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-100">Review Safe-Change Request</h2>
-            <p className="text-xs text-slate-400">Pre-flight risk assessment and dynamic policy impact verification</p>
+            <h2 className="text-lg font-bold text-zinc-100">Review Safe-Change Request</h2>
+            <p className="text-xs text-zinc-400">Pre-flight risk assessment and dynamic policy impact verification</p>
           </div>
         </div>
 
         {isLoadingPreview ? (
-          <div className="py-12 text-center text-slate-400 font-mono text-xs flex items-center justify-center gap-2">
-            <Clock className="w-4 h-4 animate-spin text-cyan-400" />
+          <div className="py-12 text-center text-zinc-400 font-mono text-xs flex items-center justify-center gap-2">
+            <Clock className="w-4 h-4 animate-spin text-blue-500" />
             Analyzing network topology impact and running server-side security checks...
           </div>
         ) : (
           <div className="space-y-5 text-xs">
             {/* 1. Link Visual: Broken -> Connected */}
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-sm bg-zinc-900/80 border border-zinc-800 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1.5 rounded-lg bg-cyan-950 text-cyan-300 font-bold border border-cyan-800">
+                <span className="px-3 py-1.5 rounded-sm bg-cyan-950 text-blue-400 font-bold border border-cyan-800">
                   {changeParams.src}
                 </span>
                 <div className="flex flex-col items-center px-4">
-                  <span className="text-[10px] font-mono text-slate-400 mb-1">{changeParams.service?.toUpperCase() || 'ANY'} PROTOCOL</span>
+                  <span className="text-[10px] font-mono text-zinc-400 mb-1">{changeParams.service?.toUpperCase() || 'ANY'} PROTOCOL</span>
                   <div className="flex items-center gap-1">
                     <span className="w-3 h-0.5 bg-rose-500 line-through" />
                     <ArrowRight className="w-4 h-4 text-emerald-400" />
                     <span className="w-3 h-0.5 bg-emerald-500" />
                   </div>
                 </div>
-                <span className="px-3 py-1.5 rounded-lg bg-cyan-950 text-cyan-300 font-bold border border-cyan-800">
+                <span className="px-3 py-1.5 rounded-sm bg-cyan-950 text-blue-400 font-bold border border-cyan-800">
                   {changeParams.dst}
                 </span>
               </div>
 
               {/* Animated Risk Badge */}
-              <div className={`px-3 py-1.5 rounded-lg font-bold font-mono tracking-wider flex items-center gap-2 ${
+              <div className={`px-3 py-1.5 rounded-sm font-bold font-mono tracking-wider flex items-center gap-2 ${
                 risk.level === 'CRITICAL' ? 'bg-rose-950 text-rose-300 border border-rose-600 animate-pulse' :
                 risk.level === 'HIGH' ? 'bg-amber-950 text-amber-300 border border-amber-600' :
                 risk.level === 'MEDIUM' ? 'bg-blue-950 text-blue-300 border border-blue-600' :
@@ -187,7 +187,7 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
 
             {/* Warning Banner for HIGH / CRITICAL */}
             {isHighOrCritical && (
-              <div className={`p-3.5 rounded-xl border flex items-start gap-3 ${
+              <div className={`p-3.5 rounded-sm border flex items-start gap-3 ${
                 isCritical ? 'bg-rose-950/40 border-rose-500/60 text-rose-200' : 'bg-amber-950/40 border-amber-500/60 text-amber-200'
               }`}>
                 <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-400" />
@@ -203,9 +203,9 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
             )}
 
             {/* Server Reasons */}
-            <div className="space-y-1 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-              <span className="font-mono text-[10px] text-slate-400 uppercase">Risk Factor Analysis:</span>
-              <ul className="space-y-1 list-disc list-inside text-slate-300">
+            <div className="space-y-1 bg-zinc-900/60 p-3 rounded-sm border border-zinc-800">
+              <span className="font-mono text-[10px] text-zinc-400 uppercase">Risk Factor Analysis:</span>
+              <ul className="space-y-1 list-disc list-inside text-zinc-300">
                 {risk.reasons?.map((r, i) => (
                   <li key={i}>{r}</li>
                 ))}
@@ -214,14 +214,14 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
 
             {/* Impacted Users & ACL Diff */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                <span className="font-mono text-[10px] text-slate-400 uppercase">Impacted Entities:</span>
-                <div className="mt-1 text-slate-300 font-semibold">
+              <div className="bg-zinc-900/60 p-3 rounded-sm border border-zinc-800">
+                <span className="font-mono text-[10px] text-zinc-400 uppercase">Impacted Entities:</span>
+                <div className="mt-1 text-zinc-300 font-semibold">
                   {previewData?.impactedUsers?.length || 0} Users & {previewData?.impactedResources?.length || 0} Resources reachable
                 </div>
               </div>
-              <div className="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
-                <span className="font-mono text-[10px] text-slate-400 uppercase">ACL Line Diff:</span>
+              <div className="bg-zinc-900/60 p-3 rounded-sm border border-zinc-800">
+                <span className="font-mono text-[10px] text-zinc-400 uppercase">ACL Line Diff:</span>
                 <pre className="mt-1 text-[10px] font-mono text-emerald-400 overflow-x-auto">
                   {previewData?.aclDiff ? previewData.aclDiff.split('\n').slice(0, 3).join('\n') : '+ permit ip ...'}
                 </pre>
@@ -231,7 +231,7 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
             {/* Required Justification Reason */}
             {risk.requiresReason && (
               <div>
-                <label className="block text-slate-300 font-medium mb-1">
+                <label className="block text-zinc-300 font-medium mb-1">
                   Justification Reason <span className="text-rose-400">* (Min 8 characters required)</span>
                 </label>
                 <input
@@ -239,7 +239,7 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="e.g., Authorized emergency audit access approved by SecOps"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-sm px-3 py-2 text-zinc-100 focus:outline-none focus:border-blue-600"
                 />
               </div>
             )}
@@ -247,25 +247,25 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
             {/* Required Confirmation Phrase for CRITICAL */}
             {risk.requiresPhrase && (
               <div>
-                <label className="block text-slate-300 font-medium mb-1">
-                  Type Confirmation Phrase: <span className="font-mono text-cyan-400 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">{risk.phrase}</span>
+                <label className="block text-zinc-300 font-medium mb-1">
+                  Type Confirmation Phrase: <span className="font-mono text-blue-500 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">{risk.phrase}</span>
                 </label>
                 <input
                   type="text"
                   value={typedPhrase}
                   onChange={(e) => setTypedPhrase(e.target.value)}
                   placeholder={risk.phrase}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-rose-500"
+                  className="w-full bg-zinc-900 border border-zinc-700 rounded-sm px-3 py-2 text-zinc-100 font-mono focus:outline-none focus:border-rose-500"
                 />
               </div>
             )}
 
             {/* Action Buttons */}
-            <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-colors"
+                className="px-4 py-2 rounded-sm bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium transition-colors"
               >
                 Cancel
               </button>
@@ -279,10 +279,10 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
                   onTouchStart={startHold}
                   onTouchEnd={cancelHold}
                   disabled={!canConfirm}
-                  className={`relative overflow-hidden px-6 py-2.5 rounded-lg font-bold transition-all shadow-glowRose select-none ${
+                  className={`relative overflow-hidden px-6 py-2.5 rounded-sm font-bold transition-all shadow-sm border-red-500/50 select-none ${
                     canConfirm
                       ? 'bg-rose-600 text-white hover:bg-rose-500 cursor-pointer'
-                      : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                      : 'bg-zinc-800 text-zinc-500 cursor-not-allowed border border-zinc-700'
                   }`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -300,10 +300,10 @@ export default function SafeChangeModal({ isOpen, changeParams, onClose, onSucce
                   type="button"
                   onClick={handleApply}
                   disabled={!canConfirm}
-                  className={`px-6 py-2.5 rounded-lg font-bold transition-all shadow-glowCyan ${
+                  className={`px-6 py-2.5 rounded-sm font-bold transition-all shadow-sm border-blue-500/50 ${
                     canConfirm
-                      ? 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 cursor-pointer'
-                      : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                      ? 'bg-blue-600 hover:bg-blue-500 text-zinc-950 cursor-pointer'
+                      : 'bg-zinc-800 text-zinc-500 cursor-not-allowed border border-zinc-700'
                   }`}
                 >
                   Confirm & Enforce Rule
