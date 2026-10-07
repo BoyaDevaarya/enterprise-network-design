@@ -18,10 +18,21 @@ export function getSeedData() {
     {
       id: 'res-hr',
       name: 'HR Records',
+      category: 'internal_web_app',
+      status: 'ONLINE',
       ownerDepartment: 'HR',
+      accessLevel: 'confidential',
+      ipAddress: '192.168.10.15',
+      endpoint: 'hr-db.enterprisenet.local:8443',
       service: 'http',
       sensitivity: 'critical',
-      description: 'Confidential employee records, contracts, and payroll data.',
+      description: 'Confidential employee records, compensation packages, contracts, and payroll data.',
+      permissions: {
+        allowedDepartments: ['HR', 'Management', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN', 'MEMBER'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'HR Employee Database',
         table: [
@@ -32,12 +43,77 @@ export function getSeedData() {
       }
     },
     {
+      id: 'res-hr-portal',
+      name: 'HR Self-Service Portal',
+      category: 'internal_web_app',
+      status: 'ONLINE',
+      ownerDepartment: 'HR',
+      accessLevel: 'restricted',
+      ipAddress: '192.168.10.20',
+      endpoint: 'hr-portal.enterprisenet.local',
+      service: 'http',
+      sensitivity: 'medium',
+      description: 'Employee self-service intranet for PTO requests, benefit enrollment, and performance reviews.',
+      permissions: {
+        allowedDepartments: ['HR', 'IT', 'Finance', 'Sales', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN', 'MEMBER'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'HR Self-Service & Benefits Hub',
+        table: [
+          { module: 'PTO Requests', pendingCount: '14', avgApprovalHours: '4.2h', systemStatus: 'ONLINE' },
+          { module: 'Benefits Enrollment', pendingCount: '3', avgApprovalHours: '12.0h', systemStatus: 'ONLINE' },
+          { module: 'Performance Reviews', pendingCount: '28', avgApprovalHours: '48.0h', systemStatus: 'ONLINE' }
+        ]
+      }
+    },
+    {
+      id: 'res-db-hr-mongo',
+      name: 'HR MongoDB Cluster',
+      category: 'database_instance',
+      status: 'ONLINE',
+      ownerDepartment: 'HR',
+      accessLevel: 'confidential',
+      ipAddress: '192.168.10.50',
+      endpoint: 'mongo-hr.internal:27017',
+      service: 'http',
+      sensitivity: 'critical',
+      description: 'NoSQL document database powering HR employee documents, resumes, and background verification records.',
+      permissions: {
+        allowedDepartments: ['HR', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'HR Document Store Collections',
+        table: [
+          { collection: 'resumes_archive', docsCount: '1,450', sizeMb: '820 MB', replicaState: 'PRIMARY' },
+          { collection: 'background_checks', docsCount: '320', sizeMb: '140 MB', replicaState: 'PRIMARY' },
+          { collection: 'tax_forms_w2', docsCount: '980', sizeMb: '450 MB', replicaState: 'PRIMARY' }
+        ]
+      }
+    },
+    {
       id: 'res-finance',
       name: 'Finance Ledger',
+      category: 'internal_web_app',
+      status: 'ONLINE',
       ownerDepartment: 'Finance',
+      accessLevel: 'confidential',
+      ipAddress: '192.168.20.25',
+      endpoint: 'ledger.finance.enterprisenet.local',
       service: 'http',
       sensitivity: 'critical',
       description: 'Corporate general ledger and financial transaction history.',
+      permissions: {
+        allowedDepartments: ['Finance', 'Management', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN', 'MEMBER'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'General Ledger Q3 2026',
         table: [
@@ -48,12 +124,77 @@ export function getSeedData() {
       }
     },
     {
+      id: 'res-db-finance-pg',
+      name: 'Production Finance PostgreSQL DB',
+      category: 'database_instance',
+      status: 'ONLINE',
+      ownerDepartment: 'Finance',
+      accessLevel: 'confidential',
+      ipAddress: '192.168.20.50',
+      endpoint: 'pg-finance.db.internal:5432',
+      service: 'http',
+      sensitivity: 'critical',
+      description: 'ACID-compliant relational database holding enterprise banking details, accounts payable, and auditing tables.',
+      permissions: {
+        allowedDepartments: ['Finance', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'PostgreSQL Financial Master Database',
+        table: [
+          { table: 'accounts_payable', rowCount: '45,210', indexSize: '42 MB', health: 'HEALTHY' },
+          { table: 'wire_transfers', rowCount: '12,890', indexSize: '18 MB', health: 'HEALTHY' },
+          { table: 'tax_provisions', rowCount: '3,410', indexSize: '8 MB', health: 'HEALTHY' }
+        ]
+      }
+    },
+    {
+      id: 'res-app-finance-erp',
+      name: 'Corporate ERP & Billing Hub',
+      category: 'internal_web_app',
+      status: 'ONLINE',
+      ownerDepartment: 'Finance',
+      accessLevel: 'restricted',
+      ipAddress: '192.168.20.100',
+      endpoint: 'erp.enterprisenet.local',
+      service: 'http',
+      sensitivity: 'high',
+      description: 'Enterprise Resource Planning system for vendor invoicing, procurement, and billing management.',
+      permissions: {
+        allowedDepartments: ['Finance', 'Sales', 'Management', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN', 'MEMBER'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'ERP Billing & Accounts Overview',
+        table: [
+          { invoiceId: 'INV-2026-089', vendor: 'Amazon Web Services', amount: '$32,450.00', status: 'Approved' },
+          { invoiceId: 'INV-2026-090', vendor: 'Cisco Systems', amount: '$118,000.00', status: 'Pending Review' },
+          { invoiceId: 'INV-2026-091', vendor: 'Datadog Inc', amount: '$14,200.00', status: 'Paid' }
+        ]
+      }
+    },
+    {
       id: 'res-it',
       name: 'IT Admin Console',
+      category: 'network_tool',
+      status: 'ONLINE',
       ownerDepartment: 'IT',
+      accessLevel: 'top_secret',
+      ipAddress: '192.168.30.10',
+      endpoint: 'admin-console.it.enterprisenet.local:8443',
       service: 'http',
       sensitivity: 'critical',
       description: 'Central infrastructure control, key vault, and cluster management.',
+      permissions: {
+        allowedDepartments: ['IT', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'IT Infrastructure Management',
         table: [
@@ -64,12 +205,104 @@ export function getSeedData() {
       }
     },
     {
+      id: 'res-cloud-k8s',
+      name: 'AWS EKS Production K8s Cluster',
+      category: 'cloud_infrastructure',
+      status: 'ONLINE',
+      ownerDepartment: 'IT',
+      accessLevel: 'top_secret',
+      ipAddress: '10.0.12.44',
+      endpoint: 'k8s-prod.us-east-1.cloud.internal:6443',
+      service: 'http',
+      sensitivity: 'critical',
+      description: 'Primary cloud container orchestration cluster running production microservices and api gateways.',
+      permissions: {
+        allowedDepartments: ['IT', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'EKS Kubernetes Node Pools',
+        table: [
+          { nodeGroup: 'nodepool-general-01', instanceType: 't3.xlarge', nodeCount: '6', cpuUtilization: '42%' },
+          { nodeGroup: 'nodepool-highmem-02', instanceType: 'r5.2xlarge', nodeCount: '4', cpuUtilization: '65%' },
+          { nodeGroup: 'nodepool-edge-ingress', instanceType: 'c5.large', nodeCount: '3', cpuUtilization: '18%' }
+        ]
+      }
+    },
+    {
+      id: 'res-net-siem',
+      name: 'SIEM Security Event Monitor',
+      category: 'network_tool',
+      status: 'ONLINE',
+      ownerDepartment: 'IT',
+      accessLevel: 'restricted',
+      ipAddress: '192.168.30.50',
+      endpoint: 'siem.security.enterprisenet.local:9200',
+      service: 'http',
+      sensitivity: 'high',
+      description: 'Security Information & Event Management engine analyzing firewall syslogs, intrusion detection alerts, and audit streams.',
+      permissions: {
+        allowedDepartments: ['IT', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'SIEM Active Threat & Alert Feed',
+        table: [
+          { alertId: 'ALT-8821', severity: 'HIGH', ruleName: 'Port Scan Detected', srcIp: '192.168.40.89', status: 'Investigating' },
+          { alertId: 'ALT-8822', severity: 'MEDIUM', ruleName: 'Failed SSH Login', srcIp: '192.168.10.4', status: 'Auto-Blocked' },
+          { alertId: 'ALT-8823', severity: 'LOW', ruleName: 'Cert Expiring Soon', srcIp: '192.168.60.11', status: 'Open' }
+        ]
+      }
+    },
+    {
+      id: 'res-net-vault',
+      name: 'Enterprise Key Vault Engine',
+      category: 'network_tool',
+      status: 'ONLINE',
+      ownerDepartment: 'IT',
+      accessLevel: 'top_secret',
+      ipAddress: '192.168.30.100',
+      endpoint: 'keyvault.it.internal:8200',
+      service: 'http',
+      sensitivity: 'critical',
+      description: 'HashiCorp Vault secret storage engine for PKI certificates, database credentials, and symmetric encryption keys.',
+      permissions: {
+        allowedDepartments: ['IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'Key Vault Secret Mount Points',
+        table: [
+          { path: 'secret/data/db-credentials', engine: 'kv-v2', leaseDuration: '3600s', sealed: 'FALSE' },
+          { path: 'pki/ca/root', engine: 'pki', leaseDuration: '8760h', sealed: 'FALSE' },
+          { path: 'transit/keys/field-encryption', engine: 'transit', leaseDuration: 'N/A', sealed: 'FALSE' }
+        ]
+      }
+    },
+    {
       id: 'res-mgmt',
       name: 'Management Dashboard',
+      category: 'internal_web_app',
+      status: 'ONLINE',
       ownerDepartment: 'Management',
+      accessLevel: 'confidential',
+      ipAddress: '192.168.50.5',
+      endpoint: 'exec-dash.management.enterprisenet.local',
       service: 'http',
       sensitivity: 'high',
       description: 'Executive KPI tracking, strategic goals, and board reports.',
+      permissions: {
+        allowedDepartments: ['Management', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN', 'MEMBER'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'Executive Strategic KPIs',
         table: [
@@ -82,10 +315,21 @@ export function getSeedData() {
     {
       id: 'res-sales',
       name: 'Sales CRM',
+      category: 'internal_web_app',
+      status: 'ONLINE',
       ownerDepartment: 'Sales',
+      accessLevel: 'restricted',
+      ipAddress: '192.168.40.12',
+      endpoint: 'crm.sales.enterprisenet.local',
       service: 'http',
       sensitivity: 'medium',
       description: 'Customer pipeline, deal tracking, and lead contacts.',
+      permissions: {
+        allowedDepartments: ['Sales', 'Management', 'IT'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN', 'MEMBER'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'Sales Pipeline Q4',
         table: [
@@ -96,12 +340,103 @@ export function getSeedData() {
       }
     },
     {
+      id: 'res-cloud-s3',
+      name: 'Enterprise S3 Data Lake',
+      category: 'cloud_infrastructure',
+      status: 'ONLINE',
+      ownerDepartment: 'Servers',
+      accessLevel: 'restricted',
+      ipAddress: '10.0.4.15',
+      endpoint: 's3.data-lake.cloud.internal',
+      service: 'http',
+      sensitivity: 'high',
+      description: 'Scalable object store housing analytical datasets, system backups, and media artifacts.',
+      permissions: {
+        allowedDepartments: ['Servers', 'IT', 'Finance', 'Management', 'Sales', 'HR'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'S3 Storage Bucket Metrics',
+        table: [
+          { bucketName: 'prod-analytics-dump-2026', objectCount: '4,520,100', storageClass: 'STANDARD', totalGb: '14,250 GB' },
+          { bucketName: 'db-nightly-backups', objectCount: '365', storageClass: 'GLACIER_IR', totalGb: '3,800 GB' },
+          { bucketName: 'public-assets-cdn', objectCount: '12,400', storageClass: 'INTELLIGENT_TIERING', totalGb: '420 GB' }
+        ]
+      }
+    },
+    {
+      id: 'res-cloud-gateway',
+      name: 'Cloud VPN & Edge Gateway',
+      category: 'cloud_infrastructure',
+      status: 'ONLINE',
+      ownerDepartment: 'IT',
+      accessLevel: 'restricted',
+      ipAddress: '203.0.113.15',
+      endpoint: 'vpn-gateway.cloud.internal:1194',
+      service: 'http',
+      sensitivity: 'critical',
+      description: 'Hybrid cloud IPsec VPN tunnel terminating multi-cloud workloads into internal VLAN subnets.',
+      permissions: {
+        allowedDepartments: ['IT', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'IPsec VPN Tunnel Status',
+        table: [
+          { tunnelId: 'tun-aws-us-east-1', status: 'UP / ESTABLISHED', throughput: '840 Mbps', latency: '12ms' },
+          { tunnelId: 'tun-azure-eu-west', status: 'UP / ESTABLISHED', throughput: '320 Mbps', latency: '78ms' },
+          { tunnelId: 'tun-gcp-asia-east', status: 'STANDBY', throughput: '0 Mbps', latency: '145ms' }
+        ]
+      }
+    },
+    {
+      id: 'res-db-redis-cache',
+      name: 'Global Redis Cache Cluster',
+      category: 'database_instance',
+      status: 'ONLINE',
+      ownerDepartment: 'Servers',
+      accessLevel: 'public',
+      ipAddress: '192.168.60.40',
+      endpoint: 'redis-master.internal:6379',
+      service: 'http',
+      sensitivity: 'low',
+      description: 'High-performance in-memory key-value cache layer servicing session states and rate limiting counters.',
+      permissions: {
+        allowedDepartments: ['Servers', 'IT', 'Finance', 'Sales', 'HR', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
+      content: {
+        title: 'Redis Node Cluster Statistics',
+        table: [
+          { node: 'redis-node-01', role: 'MASTER', keysCount: '842,900', memoryUsed: '1.4 GB', hitRatio: '99.4%' },
+          { node: 'redis-node-02', role: 'REPLICA', keysCount: '842,900', memoryUsed: '1.4 GB', hitRatio: '99.4%' }
+        ]
+      }
+    },
+    {
       id: 'res-web',
       name: 'Company Web Portal',
+      category: 'internal_web_app',
+      status: 'ONLINE',
       ownerDepartment: 'Servers',
+      accessLevel: 'public',
+      ipAddress: '192.168.60.11',
+      endpoint: 'portal.enterprisenet.local',
       service: 'http',
       sensitivity: 'low',
       description: 'Internal employee intranet portal and announcement hub.',
+      permissions: {
+        allowedDepartments: ['Servers', 'IT', 'HR', 'Finance', 'Sales', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'EnterpriseNet Intranet Portal',
         table: [
@@ -114,10 +449,21 @@ export function getSeedData() {
     {
       id: 'res-dns',
       name: 'DNS Service',
+      category: 'network_tool',
+      status: 'ONLINE',
       ownerDepartment: 'Servers',
+      accessLevel: 'public',
+      ipAddress: '192.168.60.10',
+      endpoint: 'dns.enterprisenet.local:53',
       service: 'dns',
       sensitivity: 'low',
       description: 'Internal domain name resolution lookup service.',
+      permissions: {
+        allowedDepartments: ['Servers', 'IT', 'HR', 'Finance', 'Sales', 'Management'],
+        readRoles: ['ADMIN', 'MEMBER'],
+        writeRoles: ['ADMIN'],
+        policyMatrixRequired: true
+      },
       content: {
         title: 'Internal DNS Zone Records',
         table: [

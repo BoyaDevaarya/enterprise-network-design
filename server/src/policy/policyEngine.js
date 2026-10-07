@@ -95,3 +95,81 @@ export function evaluateResourceAccess(userDepartment, resource, rules, now = ne
     now
   );
 }
+
+export function evaluateResourcePermission(user, effectiveDept, resource, rules, now = new Date()) {
+  if (!resource || !resource.ownerDepartment) {
+    return {
+      readable: false,
+      writable: false,
+      networkAllowed: false,
+      deptAllowed: false,
+      roleCanRead: false,
+      matchedRuleId: null,
+      reason: 'Invalid resource configuration',
+      writeReason: 'Invalid resource configuration'
+    };
+  }
+
+  const userRole = user?.role || 'MEMBER';
+  const activeDept = effectiveDept || user?.department || 'IT';
+
+  // 1. Network Policy Matrix check
+  const netEval = evaluateResourceAccess(activeDept, resource, rules, now);
+
+  // 2. Allowed Departments check
+  const allowedDepts = resource.permissions?.allowedDepartments || ['*'];
+  const deptAllowed = allowedDepts.includes('*') ||
+                      allowedDepts.some(d => d.toLowerCase() === activeDept.toLowerCase()) ||
+                      resource.ownerDepartment.toLowerCase() === activeDept.toLowerCase() ||
+                      userRole === 'ADMIN' ||
+                      netEval.allowed;
+
+
+  // 3. Read Roles check
+  const readRoles = resource.permissions?.readRoles || ['ADMIN', 'MEMBER'];
+  const roleCanRead = userRole === 'ADMIN' || readRoles.includes(userRole);
+
+  const readable = netEval.allowed && deptAllowed && roleCanRead;
+
+  let reason = netEval.reason;
+  if (!netEval.allowed) {
+    reason = netEval.reason;
+  } else if (!deptAllowed) {
+    reason = `Access denied by department boundary policy: Department '${activeDept}' is not permitted to access resource '${resource.name}'`;
+  } else if (!roleCanRead) {
+    reason = `Access denied by role RBAC policy: Role '${userRole}' is not permitted read access to resource '${resource.name}'`;
+  }
+
+  // 4. Write Roles check
+  const writeRoles = resource.permissions?.writeRoles || ['ADMIN'];
+  const userDept = user?.department || activeDept;
+  const isOwnerDept = userDept.toLowerCase() === resource.ownerDepartment.toLowerCase();
+
+  const writable = readable && (
+    userRole === 'ADMIN' ||
+    (writeRoles.includes(userRole) && (isOwnerDept || allowedDepts.includes('*')))
+  );
+
+  let writeReason = null;
+  if (!writable) {
+    if (!readable) {
+      writeReason = `Write access restricted: Read access to '${resource.name}' is currently denied.`;
+    } else if (userRole !== 'ADMIN' && !isOwnerDept && !allowedDepts.includes('*')) {
+      writeReason = `Write access restricted: Only members of owner department '${resource.ownerDepartment}' or Admins can edit this resource.`;
+    } else if (!writeRoles.includes(userRole)) {
+      writeReason = `Write access restricted: Role '${userRole}' lacks edit permissions for resource '${resource.name}'.`;
+    }
+  }
+
+  return {
+    readable,
+    writable,
+    networkAllowed: netEval.allowed,
+    deptAllowed,
+    roleCanRead,
+    matchedRuleId: netEval.matchedRuleId,
+    reason,
+    writeReason
+  };
+}
+
